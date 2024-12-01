@@ -1,0 +1,70 @@
+{
+	"dependencies": [
+		{
+			"name": "openfl",
+			"type": "haxelib",
+			"version": "9.2.2"
+		},
+		{
+			"name": "lime",
+			"type": "haxelib",
+			"version": "8.1.3"
+		},
+		{
+			"name": "flixel",
+			"type": "haxelib",
+			"version": "5.5.0"
+		},
+		{
+			"name": "flixel-ui",
+			"type": "haxelib",
+			"version": "2.6.1"
+		},
+		{
+			"name": "flixel-addons",
+			"type": "haxelib",
+			"version": "3.2.3"
+		},
+		{
+			"name": "hxcpp",
+			"type": "haxelib",
+			"version": null
+		},
+		{
+			"name": "hxcpp-debug-server",
+			"type": "haxelib",
+			"version": null
+		},
+		{
+			"name": "hscript",
+			"type": "git",
+			"dir": null,
+			"ref": "master",
+			"url": "https://github.com/nebulazorua/t-hscript"		
+		},
+		{
+			"name": "hxvlc",
+			"type": "haxelib",
+			"version": "1.4.1"
+		},
+		{
+			"name": "hxdiscord_rpc",
+			"type": "haxelib",
+			"version": "1.1.1"			
+		},
+		{
+			"name": "linc_luajit",
+			"type": "git",
+			"dir": null,
+			"ref": "master",
+			"url": "https://github.com/riconuts/linc_luajit"
+		},
+        {
+            "name": "moonchart",
+            "type": "git",
+            "dir": null,
+            "ref": "main",
+            "url": "https://github.com/MaybeMaru/moonchart"
+        }
+	]
+}
