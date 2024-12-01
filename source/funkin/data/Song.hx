@@ -144,7 +144,7 @@ class Song
 				default:
 					var formatInfo:FormatData = FormatDetector.getFormatData(fileFormat);
 					var chart:moonchart.formats.BasicFormat<{}, {}>;
-					chart = cast Type.createInstance(formatInfo.handler, []).fromFile(filePath);
+					chart = Type.createInstance(formatInfo.handler, []).fromFile(filePath);
 
 					if (chart.formatMeta.supportsDiffs || chart.diffs.length > 0){
 						for (diff in chart.diffs)
@@ -498,7 +498,7 @@ class Song
 								trace('Converting from format $format!');
 
 								var chart:moonchart.formats.BasicFormat<{}, {}>;
-								chart = cast Type.createInstance(formatInfo.handler, []);
+								chart = Type.createInstance(formatInfo.handler, []);
 								chart = chart.fromFile(filePath);
 								if(chart.formatMeta.supportsDiffs && !chart.diffs.contains(rawDifficulty))continue;
 

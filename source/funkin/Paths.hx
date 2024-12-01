@@ -351,6 +351,11 @@ class Paths
 		return returnSound('songs', '${formatToSongPath(song)}/$track');
 	}
 
+	inline static public function sfx(song:String):Null<Sound>
+	{
+		return track(song, "Sfx");
+	}
+
 	inline static public function voices(song:String):Null<Sound>
 	{
 		return track(song, "Voices");
@@ -365,9 +370,9 @@ class Paths
 	inline public static function imageExists(key:String):Bool
 		return Paths.exists(getPath('images/$key.png'));
 
-	inline static public function image(key:String, ?library:String):Null<FlxGraphic>
+	inline static public function image(key:String, ?library:String,?altPath:Bool = false,?notPush:Bool = false):Null<FlxGraphic>
 	{
-		return returnGraphic(key, library);
+		return returnGraphic(key, library, altPath, notPush);
 	}
 
 	/** Returns the contents of a file as a string. **/
@@ -493,7 +498,7 @@ class Paths
 		return graphic;
 	}
 
-	public static function returnGraphic(key:String, ?library:String):Null<FlxGraphic>
+	public static function returnGraphic(key:String, ?library:String,?altPath:Bool = false,?notPush:Bool = false):Null<FlxGraphic>
 	{
 		#if MODS_ALLOWED
 		var modKey:String = modsImages(key);
@@ -510,13 +515,17 @@ class Paths
 		#end
 
 		var path = png(key, library);
+		if (altPath)
+			path = file('$key.png', IMAGE, library);
 		if (Paths.exists(path, IMAGE))
 		{
 			if (!currentTrackedAssets.exists(path)){
 				var newGraphic:FlxGraphic = getGraphic(path);
 				newGraphic.persist = true;
+				if (!notPush)
 				currentTrackedAssets.set(path, newGraphic);
 			}
+			if (!notPush)
 			if (!localTrackedAssets.contains(path))localTrackedAssets.push(path);
 			return currentTrackedAssets.get(path);
 		}

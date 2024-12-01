@@ -70,7 +70,7 @@ class UpdaterState extends MusicBeatState {
 		var beta = release.prerelease ? " (PRE-RELEASE)" : "";
 		var currentBeta = Main.Version.isBeta ? " (PRE-RELEASE)" : "";
 		updateText = new FlxText(0, 0, FlxG.width,
-			'You are on Troll Engine ${Main.Version.displayedVersion}${currentBeta}, but the most recent is v${release.tag_name}${beta}!\n\nY = Update, N = Remind me later, I = Skip this update');
+			'You are on Raincandy Engine ${Main.Version.displayedVersion}${currentBeta}, but the most recent is v${release.tag_name}${beta}!\n\nY = Update, N = Remind me later, I = Skip this update');
 		updateText.setFormat(Paths.font("calibrib.ttf"), 32, FlxColor.WHITE, CENTER);
 		updateText.updateHitbox();
 		updateText.screenCenter(Y);
@@ -350,7 +350,7 @@ class UpdaterState extends MusicBeatState {
 		if (ClientPrefs.checkForUpdates)
 		{
 			var github:Github = new Github(); // leaving the user and repo blank means it'll derive it from the repo the mod is compiled from
-			// if it cant find the repo you compiled in, it'll just default to troll engine's repo
+			// if it cant find the repo you compiled in, it'll just default to Raincandy Engine's repo
 			recentRelease = github.getReleases((release:Release) ->{
 				return (Main.downloadBetas || !release.prerelease);
 			})[0];			

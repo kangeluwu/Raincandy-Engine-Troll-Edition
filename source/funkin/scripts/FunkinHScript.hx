@@ -166,12 +166,6 @@ class FunkinHScript extends FunkinScript
 			
 			if (doCreateCall){
 				call('onCreate');
-				if (flixel.FlxG.state is PlayState){
-				if (PlayState.SONG == null){
-				call('start',[PlayState.SONG]);
-				}else
-				call('start',[]);
-			}
 			}
 		}
 	}

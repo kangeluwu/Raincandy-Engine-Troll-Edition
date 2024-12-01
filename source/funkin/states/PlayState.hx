@@ -332,6 +332,8 @@ class PlayState extends MusicBeatState
 	@:noCompletion function set_beatsPerZoom(val:Int)return zoomEveryBeat = val;
 
 	////
+	@:isVar public var botplay(get, set):Bool = false;
+	@:isVar public var opponentPlayer(get, set):Bool = false;
 	@:isVar public var songScore(get, set):Int = 0;
 	@:isVar public var totalPlayed(get, set):Float = 0;
 	@:isVar public var totalNotesHit(get, set):Float = 0.0;
@@ -340,7 +342,9 @@ class PlayState extends MusicBeatState
 	@:isVar public var ratingName(get, set):String = '?';
 	@:isVar public var ratingPercent(get, set):Float;
 	@:isVar public var ratingFC(get, set):String;
-	
+
+	@:noCompletion public inline function get_opponentPlayer()return playOpponent;
+	@:noCompletion public inline function get_botplay()return cpuControlled;
 	@:noCompletion public inline function get_songScore()return stats.score;
 	@:noCompletion public inline function get_totalPlayed()return stats.totalPlayed;
 	@:noCompletion public inline function get_totalNotesHit()return stats.totalNotesHit;
@@ -350,6 +354,8 @@ class PlayState extends MusicBeatState
 	@:noCompletion public inline function get_ratingPercent()return stats.ratingPercent;
 	@:noCompletion public inline function get_ratingFC()return stats.clearType;
 
+	@:noCompletion public inline function set_opponentPlayer(val:Bool)return playOpponent = val;
+	@:noCompletion public inline function set_botplay(val:Bool)return cpuControlled = val;
 	@:noCompletion public inline function set_songScore(val:Int)return stats.score = val;
 	@:noCompletion public inline function set_totalPlayed(val:Float)return stats.totalPlayed = val;
 	@:noCompletion public inline function set_totalNotesHit(val:Float)return stats.totalNotesHit = val;
@@ -4285,11 +4291,19 @@ class PlayState extends MusicBeatState
 		var script = FunkinHScript.fromFile(path, scriptName, [
             "modName" => modName
         ], ignoreCreateCall != true);
+		if (ignoreCreateCall != true){
+			script.call('start',[SONG]);//M+ real
+		}
+		initPlayStateVars(script);
 		hscriptArray.push(script);
 		funkyScripts.push(script);
 		return script;
 	}
+	function initPlayStateVars(script:FunkinHScript = null){
+		if (script != null){
 
+		}
+	}
 	public function removeHScript(script:FunkinHScript){
 		funkyScripts.remove(script);
 		hscriptArray.remove(script);

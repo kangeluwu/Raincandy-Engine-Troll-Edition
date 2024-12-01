@@ -19,7 +19,7 @@ class DiscordClient {
 #else
 class DiscordClient
 {
-	private static final defaultID = '814588678700924999';
+	private static final defaultID = '1119543015703326780';
 	private static final defaultAllowedImageKeys:Array<String> = [
 		"icon"
 	];
@@ -137,7 +137,7 @@ class DiscordClient
 		lastPresence.details = details;
 		lastPresence.state = state;
 		lastPresence.largeImageKey = getImageKey(largeImageKey);
-		lastPresence.largeImageText = "Troll Engine " + Main.Version.displayedVersion;
+		lastPresence.largeImageText = "Raincandy Engine " + Main.Version.displayedVersion;
 
 		// Obtained times are in milliseconds so they are divided so Discord can use it
 		lastPresence.startTimestamp = Std.int(startTimestamp / 1000);

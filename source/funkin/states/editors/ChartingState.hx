@@ -154,7 +154,7 @@ class ChartingState extends MusicBeatState
 	var inst:FlxSound = null;
 	var tracks:Array<FlxSound> = [];
 	var soundTracksMap:Map<String, FlxSound> = [];
-	
+	var tracksMainMap:Map<String, Map<String, FlxSound>> = [];
 	var currentSongName:String;
 	var songLength:Float = 0.0;
 	var tempBpm:Float = 0;
@@ -1400,9 +1400,17 @@ class ChartingState extends MusicBeatState
 	var waveformTrackDropDown:FlxUIDropDownMenuCustom;
 	var waveformTrack:Null<FlxSound> = null;
 	var trackVolumeSlider:FlxUISlider;
-
+	var curWaveFormSel:Int = 0;
+	var curTrackName:String = 'None';
 	function selectTrack(trackName:String){
-		waveformTrack = soundTracksMap.get(trackName); 
+	curWaveFormSel = 0;
+	curTrackName = trackName;
+	var w = tracksMainMap.get(trackName);
+	var trackArrays = [];
+	for (n in w.keys())
+		trackArrays.push(n);
+
+		waveformTrack = w.get(trackArrays[curWaveFormSel]); 
 
 		if (waveformTrack != null){
 			trackVolumeSlider.value = waveformTrack.volume;
@@ -1413,14 +1421,35 @@ class ChartingState extends MusicBeatState
 		
 		updateWaveform();
 	}
+	function changeTrack(vojBra:Int = 0){
+		var w = tracksMainMap.get(curTrackName);
+		var trackArrays = [];
+		for (n in w.keys())
+			trackArrays.push(n);
+
+		curWaveFormSel += vojBra;
+		if (curWaveFormSel >= trackArrays.length)
+			curWaveFormSel = 0;
+		else if (curWaveFormSel < 0)
+			curWaveFormSel = trackArrays.length-1;
+
+			waveformTrack = w.get(trackArrays[curWaveFormSel]); 
+
+			updateWaveform();
+		}
 
 	function changeSelectedTrackVolume(val:Float)
 	{
+		var w = tracksMainMap.get(curTrackName);
+
 		if (waveformTrack != null)
 			waveformTrack.volume = val;
 		/*else
 			trace("Erm. No track is selected!");*/
-		
+		for (n in w.iterator())
+			{
+			n.volume = val;
+			}
 		trackVolumeSlider.value = val;
 	}
 
@@ -1431,7 +1460,7 @@ class ChartingState extends MusicBeatState
 		////////
 
 		var trackNamesArray = ["None"];
-		for (trackName in soundTracksMap.keys())
+		for (trackName in tracksMainMap.keys())
 			trackNamesArray.push(trackName);
 
 		/*var curSelectedTrackName = "None";
@@ -1586,13 +1615,16 @@ class ChartingState extends MusicBeatState
 
 		for (groupName in Reflect.fields(jsonTracks)) {
 			var trackGroup:Array<String> = Reflect.field(jsonTracks, groupName);
+			var f = new Map<String,FlxSound>();
 			for (trackName in trackGroup) {
 				if (soundTracksMap.exists(trackName))
 					continue;
 
 				soundTracksMap.set(trackName, null);
 				songTrackNames.push(trackName);
+				f.set(trackName, null);
 			}
+			tracksMainMap.set(groupName,f);
 		}
 
 		songLength = 0.0;
@@ -1610,7 +1642,12 @@ class ChartingState extends MusicBeatState
 			newTrack.onComplete = onTrackCompleted;
 
 			songLength = Math.max(songLength, newTrack.length);
-
+			for (name in tracksMainMap.keys()){
+			var w = tracksMainMap.get(name);
+			if (!w.exists(trackName))
+			w.set(trackName,newTrack);
+			tracksMainMap.set(name,w);
+			}
 			soundTracksMap.set(trackName, newTrack);
 			tracks.push(newTrack);
 		}
@@ -1963,7 +2000,10 @@ class ChartingState extends MusicBeatState
 
 				return;
 			}
-
+			if (FlxG.keys.justPressed.I)
+				changeTrack(1);
+			if (FlxG.keys.justPressed.O)
+				changeTrack(-1);
 			if (FlxG.keys.justPressed.M)
 			{
 				var mustHit = !_song.notes[curSec].mustHitSection;

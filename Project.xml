@@ -86,7 +86,7 @@
 	<haxelib name="funkin.vis"/>
 
     <!--Uncomment if you want to use moonchart, which allows usage of chart formats from other rhythm games and fnf engines-->
-    <haxelib name="moonchart"/>
+    <haxelib name="moonchart" version="0.4.0" if="native"/>
 	<haxelib name="FlxPartialSound" /> <!-- Loading partial sound data -->
 	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED"/>
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
@@ -116,6 +116,9 @@
 		<haxedef name="openfl-enable-handle-error" />
 	</section>
 
+	<haxeflag name="--macro" value="include('funkin.macros')" />
+	<haxeflag name="--macro" value="addMetadata('@:build(funkin.macros.FlxMacro.buildFlxBasic())', 'flixel.FlxBasic')" />
+	
     <!-- NOTE TO SELF: DISABLE THIS IF ISSUES ARE FOUND -->
 	<haxedef name="LINC_LUA_RELATIVE_DYNAMIC_LIB" if="LUA_ALLOWED" /> <!-- stable luas PUT AFTER FIRST LINE WITH APP NAME AND ETC -->
 
