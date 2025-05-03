@@ -50,9 +50,11 @@ abstract class FunkinScript
 		set('Function_Continue', Globals.Function_Continue);
 		set('Function_StopLua', Globals.Function_Halt); // DEPRECATED
 
-		set('version', "0.5.2h"); // version of psych troll engine is based on
-		set('teVersion', StringTools.trim(Main.Version.displayedVersion));
+		set('version', "v0.6.3"); // version of psych troll raincandy engine is based on
+		set('teVersion', 'v0.2.0-rc.1');
+		set('rceVersion', StringTools.trim(Main.Version.displayedVersion));
 		set("trollEngine", true); // so if any psych mods wanna add troll engine specific stuff well there they go
+		set("raincandyEngine", true);
 
 		#if windows
 		set('buildTarget', 'windows');

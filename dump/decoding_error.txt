@@ -1,0 +1,2682 @@
+[{
+	access: [AInline, AStatic]
+	doc: null
+	kind: FVar(null, {
+		expr: EConst(CFloat(1.0, null))
+		pos: #pos
+	})
+	meta: []
+	name: MIN_TIME
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FVar(TPath({
+		name: FlxState
+		pack: []
+		params: []
+		sub: null
+	}), null)
+	meta: []
+	name: target
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FVar(null, {
+		expr: EConst(CIdent(false))
+		pos: #pos
+	})
+	meta: []
+	name: stopMusic
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: target
+			opt: false
+			type: TPath({
+				name: FlxState
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: []
+			name: stopMusic
+			opt: false
+			type: TPath({
+				name: Bool
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EBinop(OpAssign, {
+						expr: EField({
+							expr: EField({
+								expr: EConst(CIdent(this))
+								pos: #pos
+							}, _scriptSuperObject, Normal)
+							pos: #pos
+						}, openSubState, Normal)
+						pos: #pos
+					}, {
+						expr: EField({
+							expr: EConst(CIdent(this))
+							pos: #pos
+						}, _super_openSubState, Normal)
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBinop(OpAssign, {
+						expr: EField({
+							expr: EField({
+								expr: EConst(CIdent(this))
+								pos: #pos
+							}, _scriptSuperObject, Normal)
+							pos: #pos
+						}, stepHit, Normal)
+						pos: #pos
+					}, {
+						expr: EField({
+							expr: EConst(CIdent(this))
+							pos: #pos
+						}, _super_stepHit, Normal)
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBinop(OpAssign, {
+						expr: EField({
+							expr: EField({
+								expr: EConst(CIdent(this))
+								pos: #pos
+							}, _scriptSuperObject, Normal)
+							pos: #pos
+						}, create, Normal)
+						pos: #pos
+					}, {
+						expr: EField({
+							expr: EConst(CIdent(this))
+							pos: #pos
+						}, _super_create, Normal)
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBinop(OpAssign, {
+						expr: EField({
+							expr: EField({
+								expr: EConst(CIdent(this))
+								pos: #pos
+							}, _scriptSuperObject, Normal)
+							pos: #pos
+						}, getEvent, Normal)
+						pos: #pos
+					}, {
+						expr: EField({
+							expr: EConst(CIdent(this))
+							pos: #pos
+						}, _super_getEvent, Normal)
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBinop(OpAssign, {
+						expr: EField({
+							expr: EField({
+								expr: EConst(CIdent(this))
+								pos: #pos
+							}, _scriptSuperObject, Normal)
+							pos: #pos
+						}, destroy, Normal)
+						pos: #pos
+					}, {
+						expr: EField({
+							expr: EConst(CIdent(this))
+							pos: #pos
+						}, _super_destroy, Normal)
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBinop(OpAssign, {
+						expr: EField({
+							expr: EField({
+								expr: EConst(CIdent(this))
+								pos: #pos
+							}, _scriptSuperObject, Normal)
+							pos: #pos
+						}, closeSubState, Normal)
+						pos: #pos
+					}, {
+						expr: EField({
+							expr: EConst(CIdent(this))
+							pos: #pos
+						}, _super_closeSubState, Normal)
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBinop(OpAssign, {
+						expr: EField({
+							expr: EField({
+								expr: EConst(CIdent(this))
+								pos: #pos
+							}, _scriptSuperObject, Normal)
+							pos: #pos
+						}, sectionHit, Normal)
+						pos: #pos
+					}, {
+						expr: EField({
+							expr: EConst(CIdent(this))
+							pos: #pos
+						}, _super_sectionHit, Normal)
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBinop(OpAssign, {
+						expr: EField({
+							expr: EField({
+								expr: EConst(CIdent(this))
+								pos: #pos
+							}, _scriptSuperObject, Normal)
+							pos: #pos
+						}, beatHit, Normal)
+						pos: #pos
+					}, {
+						expr: EField({
+							expr: EConst(CIdent(this))
+							pos: #pos
+						}, _super_beatHit, Normal)
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBinop(OpAssign, {
+						expr: EField({
+							expr: EField({
+								expr: EConst(CIdent(this))
+								pos: #pos
+							}, _scriptSuperObject, Normal)
+							pos: #pos
+						}, update, Normal)
+						pos: #pos
+					}, {
+						expr: EField({
+							expr: EConst(CIdent(this))
+							pos: #pos
+						}, _super_update, Normal)
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EConst(CIdent(super))
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: EBinop(OpAssign, {
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, target, Normal)
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(target))
+					pos: #pos
+				})
+				pos: #pos
+			}, {
+				expr: EBinop(OpAssign, {
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, stopMusic, Normal)
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(stopMusic))
+					pos: #pos
+				})
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EConst(CIdent(_startExtensionScript))
+					pos: #pos
+				}, [{
+					expr: EConst(CString(states, DoubleQuotes))
+					pos: #pos
+				}, {
+					expr: EConst(CString(extension/LoadingState, DoubleQuotes))
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: new
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FVar(TPath({
+		name: FlxSprite
+		pack: []
+		params: []
+		sub: null
+	}), null)
+	meta: []
+	name: funkay
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FVar(TPath({
+		name: FlxSprite
+		pack: []
+		params: []
+		sub: null
+	}), null)
+	meta: []
+	name: loadBar
+	pos: #pos
+}, {
+	access: [APrivate]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EVars([{
+					expr: {
+						expr: ECall({
+							expr: EField({
+								expr: ENew({
+									name: FlxSprite
+									pack: []
+									params: []
+									sub: null
+								}, [{
+									expr: EConst(CInt(0, null))
+									pos: #pos
+								}, {
+									expr: EConst(CInt(0, null))
+									pos: #pos
+								}])
+								pos: #pos
+							}, makeGraphic, Normal)
+							pos: #pos
+						}, [{
+							expr: EField({
+								expr: EConst(CIdent(FlxG))
+								pos: #pos
+							}, width, Normal)
+							pos: #pos
+						}, {
+							expr: EField({
+								expr: EConst(CIdent(FlxG))
+								pos: #pos
+							}, height, Normal)
+							pos: #pos
+						}, {
+							expr: EConst(CInt(0xffcaff4d, null))
+							pos: #pos
+						}])
+						pos: #pos
+					}
+					isFinal: false
+					isStatic: false
+					meta: []
+					name: bg
+					namePos: #pos
+					type: TPath({
+						name: FlxSprite
+						pack: []
+						params: []
+						sub: null
+					})
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EConst(CIdent(add))
+					pos: #pos
+				}, [{
+					expr: EConst(CIdent(bg))
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBinop(OpAssign, {
+					expr: EConst(CIdent(funkay))
+					pos: #pos
+				}, {
+					expr: ENew({
+						name: FlxSprite
+						pack: []
+						params: []
+						sub: null
+					}, [{
+						expr: EConst(CInt(0, null))
+						pos: #pos
+					}, {
+						expr: EConst(CInt(0, null))
+						pos: #pos
+					}, {
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(Paths))
+								pos: #pos
+							}, image, Normal)
+							pos: #pos
+						}, [{
+							expr: EConst(CString(funkay, DoubleQuotes))
+							pos: #pos
+						}])
+						pos: #pos
+					}])
+					pos: #pos
+				})
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(funkay))
+						pos: #pos
+					}, setGraphicSize, Normal)
+					pos: #pos
+				}, [{
+					expr: EConst(CInt(0, null))
+					pos: #pos
+				}, {
+					expr: EField({
+						expr: EConst(CIdent(FlxG))
+						pos: #pos
+					}, height, Normal)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(funkay))
+						pos: #pos
+					}, updateHitbox, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EField({
+							expr: EConst(CIdent(funkay))
+							pos: #pos
+						}, scrollFactor, Normal)
+						pos: #pos
+					}, set, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(funkay))
+						pos: #pos
+					}, screenCenter, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EConst(CIdent(add))
+					pos: #pos
+				}, [{
+					expr: EConst(CIdent(funkay))
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBinop(OpAssign, {
+					expr: EConst(CIdent(loadBar))
+					pos: #pos
+				}, {
+					expr: ECall({
+						expr: EField({
+							expr: ENew({
+								name: FlxSprite
+								pack: []
+								params: []
+								sub: null
+							}, [{
+								expr: EConst(CInt(0, null))
+								pos: #pos
+							}, {
+								expr: EBinop(OpSub, {
+									expr: EField({
+										expr: EConst(CIdent(FlxG))
+										pos: #pos
+									}, height, Normal)
+									pos: #pos
+								}, {
+									expr: EConst(CInt(20, null))
+									pos: #pos
+								})
+								pos: #pos
+							}])
+							pos: #pos
+						}, makeGraphic, Normal)
+						pos: #pos
+					}, [{
+						expr: EField({
+							expr: EConst(CIdent(FlxG))
+							pos: #pos
+						}, width, Normal)
+						pos: #pos
+					}, {
+						expr: EConst(CInt(10, null))
+						pos: #pos
+					}, {
+						expr: EConst(CInt(0xffff16d2, null))
+						pos: #pos
+					}])
+					pos: #pos
+				})
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(loadBar))
+						pos: #pos
+					}, screenCenter, Normal)
+					pos: #pos
+				}, [{
+					expr: EConst(CIdent(X))
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EConst(CIdent(add))
+					pos: #pos
+				}, [{
+					expr: EConst(CIdent(loadBar))
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _OGcreate
+	pos: #pos
+}, {
+	access: [APrivate]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: elapsed
+			opt: false
+			type: TPath({
+				name: Float
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(funkay))
+						pos: #pos
+					}, setGraphicSize, Normal)
+					pos: #pos
+				}, [{
+					expr: ECall({
+						expr: EField({
+							expr: EConst(CIdent(Std))
+							pos: #pos
+						}, int, Normal)
+						pos: #pos
+					}, [{
+						expr: EBinop(OpAdd, {
+							expr: EBinop(OpMult, {
+								expr: EConst(CFloat(0.88, null))
+								pos: #pos
+							}, {
+								expr: EField({
+									expr: EConst(CIdent(FlxG))
+									pos: #pos
+								}, width, Normal)
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: EBinop(OpMult, {
+								expr: EConst(CFloat(0.9, null))
+								pos: #pos
+							}, {
+								expr: EParenthesis({
+									expr: EBinop(OpSub, {
+										expr: EField({
+											expr: EConst(CIdent(funkay))
+											pos: #pos
+										}, width, Normal)
+										pos: #pos
+									}, {
+										expr: EBinop(OpMult, {
+											expr: EConst(CFloat(0.88, null))
+											pos: #pos
+										}, {
+											expr: EField({
+												expr: EConst(CIdent(FlxG))
+												pos: #pos
+											}, width, Normal)
+											pos: #pos
+										})
+										pos: #pos
+									})
+									pos: #pos
+								})
+								pos: #pos
+							})
+							pos: #pos
+						})
+						pos: #pos
+					}])
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(funkay))
+						pos: #pos
+					}, updateHitbox, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: EIf({
+					expr: EField({
+						expr: EConst(CIdent(controls))
+						pos: #pos
+					}, ACCEPT, Normal)
+					pos: #pos
+				}, {
+					expr: EBlock([{
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(funkay))
+								pos: #pos
+							}, setGraphicSize, Normal)
+							pos: #pos
+						}, [{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(Std))
+									pos: #pos
+								}, int, Normal)
+								pos: #pos
+							}, [{
+								expr: EBinop(OpAdd, {
+									expr: EField({
+										expr: EConst(CIdent(funkay))
+										pos: #pos
+									}, width, Normal)
+									pos: #pos
+								}, {
+									expr: EConst(CInt(60, null))
+									pos: #pos
+								})
+								pos: #pos
+							}])
+							pos: #pos
+						}])
+						pos: #pos
+					}, {
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(funkay))
+								pos: #pos
+							}, updateHitbox, Normal)
+							pos: #pos
+						}, [])
+						pos: #pos
+					}])
+					pos: #pos
+				}, null)
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, update, Normal)
+					pos: #pos
+				}, [{
+					expr: EConst(CIdent(elapsed))
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _OGupdate
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EVars([{
+					expr: {
+						expr: EConst(CFloat(0.5, null))
+						pos: #pos
+					}
+					isFinal: false
+					isStatic: false
+					meta: []
+					name: fadeTime
+					namePos: #pos
+					type: null
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EField({
+							expr: EConst(CIdent(FlxG))
+							pos: #pos
+						}, camera, Normal)
+						pos: #pos
+					}, fade, Normal)
+					pos: #pos
+				}, [{
+					expr: EField({
+						expr: EField({
+							expr: EConst(CIdent(FlxG))
+							pos: #pos
+						}, camera, Normal)
+						pos: #pos
+					}, bgColor, Normal)
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(fadeTime))
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(true))
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: ENew({
+							name: FlxTimer
+							pack: []
+							params: []
+							sub: null
+						}, [])
+						pos: #pos
+					}, start, Normal)
+					pos: #pos
+				}, [{
+					expr: EBinop(OpAdd, {
+						expr: EConst(CIdent(fadeTime))
+						pos: #pos
+					}, {
+						expr: EConst(CIdent(MIN_TIME))
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EFunction(FAnonymous, {
+						args: [{
+							meta: []
+							name: _
+							opt: false
+							type: null
+							value: null
+						}]
+						expr: {
+							expr: EBlock([{
+								expr: EIf({
+									expr: EConst(CIdent(stopMusic))
+									pos: #pos
+								}, {
+									expr: EBlock([{
+										expr: ECall({
+											expr: EField({
+												expr: EConst(CIdent(MusicBeatState))
+												pos: #pos
+											}, stopMenuMusic, Normal)
+											pos: #pos
+										}, [])
+										pos: #pos
+									}])
+									pos: #pos
+								}, null)
+								pos: #pos
+							}, {
+								expr: ECall({
+									expr: EField({
+										expr: EConst(CIdent(MusicBeatState))
+										pos: #pos
+									}, switchState, Normal)
+									pos: #pos
+								}, [{
+									expr: EConst(CIdent(target))
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						}
+						params: []
+						ret: null
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: onLoad
+	pos: #pos
+}, {
+	access: [APrivate]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, destroy, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _OGdestroy
+	pos: #pos
+}, {
+	access: [AInline, AStatic, APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: target
+			opt: false
+			type: TPath({
+				name: FlxState
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: []
+			name: stopMusic
+			opt: false
+			type: null
+			value: {
+				expr: EConst(CIdent(false))
+				pos: #pos
+			}
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(MusicBeatState))
+						pos: #pos
+					}, switchState, Normal)
+					pos: #pos
+				}, [{
+					expr: ECall({
+						expr: EConst(CIdent(getNextState))
+						pos: #pos
+					}, [{
+						expr: EConst(CIdent(target))
+						pos: #pos
+					}, {
+						expr: EConst(CIdent(stopMusic))
+						pos: #pos
+					}])
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: loadAndSwitchState
+	pos: #pos
+}, {
+	access: [AStatic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: target
+			opt: false
+			type: TPath({
+				name: FlxState
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: []
+			name: stopMusic
+			opt: false
+			type: null
+			value: {
+				expr: EConst(CIdent(false))
+				pos: #pos
+			}
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EIf({
+					expr: EConst(CIdent(stopMusic))
+					pos: #pos
+				}, {
+					expr: EBlock([{
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(MusicBeatState))
+								pos: #pos
+							}, stopMenuMusic, Normal)
+							pos: #pos
+						}, [])
+						pos: #pos
+					}])
+					pos: #pos
+				}, null)
+				pos: #pos
+			}, {
+				expr: EReturn({
+					expr: EConst(CIdent(target))
+					pos: #pos
+				})
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: TPath({
+			name: FlxState
+			pack: []
+			params: []
+			sub: null
+		})
+	})
+	meta: []
+	name: getNextState
+	pos: #pos
+}, {
+	access: []
+	doc: Used as 'super' in scripts
+	kind: FVar(TPath({
+		name: Dynamic
+		pack: []
+		params: []
+		sub: null
+	}), {
+		expr: EObjectDecl([])
+		pos: #pos
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _scriptSuperObject
+	pos: #pos
+}, {
+	access: [AOverride, APublic]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EVars([{
+					expr: {
+						expr: ENew({
+							name: Map
+							pack: []
+							params: [TPType(TPath({
+								name: String
+								pack: []
+								params: []
+								sub: null
+							})), TPType(TPath({
+								name: Dynamic
+								pack: []
+								params: []
+								sub: null
+							}))]
+							sub: null
+						}, [])
+						pos: #pos
+					}
+					isFinal: false
+					isStatic: false
+					meta: []
+					name: defaultVars
+					namePos: #pos
+					type: null
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(defaultVars))
+						pos: #pos
+					}, set, Normal)
+					pos: #pos
+				}, [{
+					expr: EConst(CString(LoadingState, DoubleQuotes))
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(LoadingState))
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(defaultVars))
+						pos: #pos
+					}, set, Normal)
+					pos: #pos
+				}, [{
+					expr: EConst(CString(super, DoubleQuotes))
+					pos: #pos
+				}, {
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, _scriptSuperObject, Normal)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(defaultVars))
+						pos: #pos
+					}, set, Normal)
+					pos: #pos
+				}, [{
+					expr: EConst(CString(this, DoubleQuotes))
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(this))
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EReturn({
+					expr: EConst(CIdent(defaultVars))
+					pos: #pos
+				})
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: null
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _getScriptDefaultVars
+	pos: #pos
+}, {
+	access: [AOverride, APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: null
+			name: folder
+			opt: null
+			type: null
+			value: null
+		}, {
+			meta: null
+			name: scriptName
+			opt: null
+			type: null
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EVars([{
+					expr: {
+						expr: EConst(CString($scriptName.hscript, SingleQuotes))
+						pos: #pos
+					}
+					isFinal: false
+					isStatic: false
+					meta: []
+					name: fileName
+					namePos: #pos
+					type: null
+				}])
+				pos: #pos
+			}, {
+				expr: EFor({
+					expr: EBinop(OpIn, {
+						expr: EConst(CIdent(filePath))
+						pos: #pos
+					}, {
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(Paths))
+								pos: #pos
+							}, getFolders, Normal)
+							pos: #pos
+						}, [{
+							expr: EConst(CIdent(folder))
+							pos: #pos
+						}])
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBlock([{
+						expr: EVars([{
+							expr: {
+								expr: EBinop(OpAdd, {
+									expr: EConst(CIdent(filePath))
+									pos: #pos
+								}, {
+									expr: EConst(CIdent(fileName))
+									pos: #pos
+								})
+								pos: #pos
+							}
+							isFinal: false
+							isStatic: false
+							meta: []
+							name: path
+							namePos: #pos
+							type: null
+						}])
+						pos: #pos
+					}, {
+						expr: EIf({
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(Paths))
+									pos: #pos
+								}, exists, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CIdent(path))
+								pos: #pos
+							}])
+							pos: #pos
+						}, {
+							expr: EBlock([{
+								expr: EBinop(OpAssign, {
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, {
+									expr: ECall({
+										expr: EField({
+											expr: EField({
+												expr: EField({
+													expr: EConst(CIdent(funkin))
+													pos: #pos
+												}, scripts, Normal)
+												pos: #pos
+											}, FunkinHScript, Normal)
+											pos: #pos
+										}, fromFile, Normal)
+										pos: #pos
+									}, [{
+										expr: EConst(CIdent(path))
+										pos: #pos
+									}, {
+										expr: EConst(CIdent(path))
+										pos: #pos
+									}, {
+										expr: ECall({
+											expr: EConst(CIdent(_getScriptDefaultVars))
+											pos: #pos
+										}, [])
+										pos: #pos
+									}])
+									pos: #pos
+								})
+								pos: #pos
+							}, {
+								expr: ECall({
+									expr: EField({
+										expr: EConst(CIdent(_extensionScript))
+										pos: #pos
+									}, call, Normal)
+									pos: #pos
+								}, [{
+									expr: EConst(CString(new, DoubleQuotes))
+									pos: #pos
+								}, {
+									expr: EArrayDecl([])
+									pos: #pos
+								}])
+								pos: #pos
+							}, {
+								expr: EBreak
+								pos: #pos
+							}])
+							pos: #pos
+						}, null)
+						pos: #pos
+					}])
+					pos: #pos
+				})
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: null
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _startExtensionScript
+	pos: #pos
+}, {
+	access: [AOverride]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpBoolAnd, {
+							expr: EBinop(OpNotEq, {
+								expr: EConst(CIdent(_extensionScript))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, exists, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(create, DoubleQuotes))
+								pos: #pos
+							}])
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, executeFunc, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(create, DoubleQuotes))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([])
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EBinop(OpArrow, {
+										expr: EConst(CString(statecreate, DoubleQuotes))
+										pos: #pos
+									}, {
+										expr: EConst(CIdent(_OGcreate))
+										pos: #pos
+									})
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						}, {
+							expr: EReturn(null)
+							pos: #pos
+						}])
+						pos: #pos
+					}, null)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([{
+					expr: EReturn({
+						expr: ECall({
+							expr: EConst(CIdent(_OGcreate))
+							pos: #pos
+						}, [])
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: create
+	pos: #pos
+}, {
+	access: [AOverride]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: elapsed
+			opt: false
+			type: TPath({
+				name: Float
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpBoolAnd, {
+							expr: EBinop(OpNotEq, {
+								expr: EConst(CIdent(_extensionScript))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, exists, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(update, DoubleQuotes))
+								pos: #pos
+							}])
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, executeFunc, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(update, DoubleQuotes))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EConst(CIdent(elapsed))
+									pos: #pos
+								}])
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EBinop(OpArrow, {
+										expr: EConst(CString(stateupdate, DoubleQuotes))
+										pos: #pos
+									}, {
+										expr: EConst(CIdent(_OGupdate))
+										pos: #pos
+									})
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						}, {
+							expr: EReturn(null)
+							pos: #pos
+						}])
+						pos: #pos
+					}, null)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([{
+					expr: EReturn({
+						expr: ECall({
+							expr: EConst(CIdent(_OGupdate))
+							pos: #pos
+						}, [{
+							expr: EConst(CIdent(elapsed))
+							pos: #pos
+						}])
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: update
+	pos: #pos
+}, {
+	access: [AOverride]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpBoolAnd, {
+							expr: EBinop(OpNotEq, {
+								expr: EConst(CIdent(_extensionScript))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, exists, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(destroy, DoubleQuotes))
+								pos: #pos
+							}])
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, executeFunc, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(destroy, DoubleQuotes))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([])
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EBinop(OpArrow, {
+										expr: EConst(CString(statedestroy, DoubleQuotes))
+										pos: #pos
+									}, {
+										expr: EConst(CIdent(_OGdestroy))
+										pos: #pos
+									})
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						}, {
+							expr: EReturn(null)
+							pos: #pos
+						}])
+						pos: #pos
+					}, null)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpNotEq, {
+							expr: EConst(CIdent(_extensionScript))
+							pos: #pos
+						}, {
+							expr: EConst(CIdent(null))
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, stop, Normal)
+								pos: #pos
+							}, [])
+							pos: #pos
+						}, {
+							expr: EBinop(OpAssign, {
+								expr: EConst(CIdent(_extensionScript))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							})
+							pos: #pos
+						}])
+						pos: #pos
+					}, null)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([{
+					expr: EReturn({
+						expr: ECall({
+							expr: EConst(CIdent(_OGdestroy))
+							pos: #pos
+						}, [])
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: destroy
+	pos: #pos
+}, {
+	access: [AOverride]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: null
+			name: SubState
+			opt: false
+			type: TPath({
+				name: FlxSubState
+				pack: [flixel]
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpBoolAnd, {
+							expr: EBinop(OpNotEq, {
+								expr: EConst(CIdent(_extensionScript))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, exists, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(openSubState, DoubleQuotes))
+								pos: #pos
+							}])
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, executeFunc, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(openSubState, DoubleQuotes))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EConst(CIdent(SubState))
+									pos: #pos
+								}])
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EBinop(OpArrow, {
+										expr: EConst(CString(stateopenSubState, DoubleQuotes))
+										pos: #pos
+									}, {
+										expr: EConst(CIdent(_super_openSubState))
+										pos: #pos
+									})
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						}, {
+							expr: EReturn(null)
+							pos: #pos
+						}])
+						pos: #pos
+					}, null)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([{
+					expr: EReturn({
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(super))
+								pos: #pos
+							}, openSubState, Normal)
+							pos: #pos
+						}, [{
+							expr: EConst(CIdent(SubState))
+							pos: #pos
+						}])
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: null
+	name: openSubState
+	pos: #pos
+}, {
+	access: [AOverride]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpBoolAnd, {
+							expr: EBinop(OpNotEq, {
+								expr: EConst(CIdent(_extensionScript))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, exists, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(closeSubState, DoubleQuotes))
+								pos: #pos
+							}])
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, executeFunc, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(closeSubState, DoubleQuotes))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([])
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EBinop(OpArrow, {
+										expr: EConst(CString(statecloseSubState, DoubleQuotes))
+										pos: #pos
+									}, {
+										expr: EConst(CIdent(_super_closeSubState))
+										pos: #pos
+									})
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						}, {
+							expr: EReturn(null)
+							pos: #pos
+						}])
+						pos: #pos
+					}, null)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([{
+					expr: EReturn({
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(super))
+								pos: #pos
+							}, closeSubState, Normal)
+							pos: #pos
+						}, [])
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: null
+	name: closeSubState
+	pos: #pos
+}, {
+	access: [AOverride]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpBoolAnd, {
+							expr: EBinop(OpNotEq, {
+								expr: EConst(CIdent(_extensionScript))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, exists, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(stepHit, DoubleQuotes))
+								pos: #pos
+							}])
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, executeFunc, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(stepHit, DoubleQuotes))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([])
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EBinop(OpArrow, {
+										expr: EConst(CString(statestepHit, DoubleQuotes))
+										pos: #pos
+									}, {
+										expr: EConst(CIdent(_super_stepHit))
+										pos: #pos
+									})
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						}, {
+							expr: EReturn(null)
+							pos: #pos
+						}])
+						pos: #pos
+					}, null)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([{
+					expr: EReturn({
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(super))
+								pos: #pos
+							}, stepHit, Normal)
+							pos: #pos
+						}, [])
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: null
+	name: stepHit
+	pos: #pos
+}, {
+	access: [AOverride]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpBoolAnd, {
+							expr: EBinop(OpNotEq, {
+								expr: EConst(CIdent(_extensionScript))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, exists, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(beatHit, DoubleQuotes))
+								pos: #pos
+							}])
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, executeFunc, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(beatHit, DoubleQuotes))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([])
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EBinop(OpArrow, {
+										expr: EConst(CString(statebeatHit, DoubleQuotes))
+										pos: #pos
+									}, {
+										expr: EConst(CIdent(_super_beatHit))
+										pos: #pos
+									})
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						}, {
+							expr: EReturn(null)
+							pos: #pos
+						}])
+						pos: #pos
+					}, null)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([{
+					expr: EReturn({
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(super))
+								pos: #pos
+							}, beatHit, Normal)
+							pos: #pos
+						}, [])
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: null
+	name: beatHit
+	pos: #pos
+}, {
+	access: [AOverride]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpBoolAnd, {
+							expr: EBinop(OpNotEq, {
+								expr: EConst(CIdent(_extensionScript))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, exists, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(sectionHit, DoubleQuotes))
+								pos: #pos
+							}])
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, executeFunc, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(sectionHit, DoubleQuotes))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([])
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EBinop(OpArrow, {
+										expr: EConst(CString(statesectionHit, DoubleQuotes))
+										pos: #pos
+									}, {
+										expr: EConst(CIdent(_super_sectionHit))
+										pos: #pos
+									})
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						}, {
+							expr: EReturn(null)
+							pos: #pos
+						}])
+						pos: #pos
+					}, null)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([{
+					expr: EReturn({
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(super))
+								pos: #pos
+							}, sectionHit, Normal)
+							pos: #pos
+						}, [])
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: null
+	name: sectionHit
+	pos: #pos
+}, {
+	access: [AOverride]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: null
+			name: id
+			opt: false
+			type: TPath({
+				name: String
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: null
+			name: sender
+			opt: false
+			type: TPath({
+				name: Dynamic
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: null
+			name: data
+			opt: false
+			type: TPath({
+				name: Dynamic
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: null
+			name: params
+			opt: true
+			type: TPath({
+				name: StdTypes
+				pack: []
+				params: [TPType(TPath({
+					name: Array
+					pack: []
+					params: [TPType(TPath({
+						name: Dynamic
+						pack: []
+						params: []
+						sub: null
+					}))]
+					sub: null
+				}))]
+				sub: Null
+			})
+			value: {
+				expr: EConst(CRegexp)
+				pos: #pos
+			}
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpBoolAnd, {
+							expr: EBinop(OpNotEq, {
+								expr: EConst(CIdent(_extensionScript))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, exists, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(getEvent, DoubleQuotes))
+								pos: #pos
+							}])
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: ECall({
+								expr: EField({
+									expr: EConst(CIdent(_extensionScript))
+									pos: #pos
+								}, executeFunc, Normal)
+								pos: #pos
+							}, [{
+								expr: EConst(CString(getEvent, DoubleQuotes))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EConst(CIdent(id))
+									pos: #pos
+								}, {
+									expr: EConst(CIdent(sender))
+									pos: #pos
+								}, {
+									expr: EConst(CIdent(data))
+									pos: #pos
+								}, {
+									expr: EConst(CIdent(params))
+									pos: #pos
+								}])
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(null))
+								pos: #pos
+							}, {
+								expr: EArrayDecl([{
+									expr: EBinop(OpArrow, {
+										expr: EConst(CString(stategetEvent, DoubleQuotes))
+										pos: #pos
+									}, {
+										expr: EConst(CIdent(_super_getEvent))
+										pos: #pos
+									})
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						}, {
+							expr: EReturn(null)
+							pos: #pos
+						}])
+						pos: #pos
+					}, null)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([{
+					expr: EReturn({
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(super))
+								pos: #pos
+							}, getEvent, Normal)
+							pos: #pos
+						}, [{
+							expr: EConst(CIdent(id))
+							pos: #pos
+						}, {
+							expr: EConst(CIdent(sender))
+							pos: #pos
+						}, {
+							expr: EConst(CIdent(data))
+							pos: #pos
+						}, {
+							expr: EConst(CIdent(params))
+							pos: #pos
+						}])
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: null
+	name: getEvent
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: elapsed
+			opt: false
+			type: TPath({
+				name: Float
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EReturn({
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, update, Normal)
+					pos: #pos
+				}, [{
+					expr: EConst(CIdent(elapsed))
+					pos: #pos
+				}])
+				pos: #pos
+			})
+			pos: #pos
+		}
+		params: null
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _super_update
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EReturn({
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, stepHit, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			})
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _super_stepHit
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EReturn({
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, sectionHit, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			})
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _super_sectionHit
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: null
+			name: SubState
+			opt: false
+			type: TPath({
+				name: FlxSubState
+				pack: [flixel]
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EReturn({
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, openSubState, Normal)
+					pos: #pos
+				}, [{
+					expr: EConst(CIdent(SubState))
+					pos: #pos
+				}])
+				pos: #pos
+			})
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _super_openSubState
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: null
+			name: id
+			opt: false
+			type: TPath({
+				name: String
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: null
+			name: sender
+			opt: false
+			type: TPath({
+				name: Dynamic
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: null
+			name: data
+			opt: false
+			type: TPath({
+				name: Dynamic
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: null
+			name: params
+			opt: true
+			type: TPath({
+				name: StdTypes
+				pack: []
+				params: [TPType(TPath({
+					name: Array
+					pack: []
+					params: [TPType(TPath({
+						name: Dynamic
+						pack: []
+						params: []
+						sub: null
+					}))]
+					sub: null
+				}))]
+				sub: Null
+			})
+			value: {
+				expr: EConst(CRegexp)
+				pos: #pos
+			}
+		}]
+		expr: {
+			expr: EReturn({
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, getEvent, Normal)
+					pos: #pos
+				}, [{
+					expr: EConst(CIdent(id))
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(sender))
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(data))
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(params))
+					pos: #pos
+				}])
+				pos: #pos
+			})
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _super_getEvent
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EReturn({
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, destroy, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			})
+			pos: #pos
+		}
+		params: null
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _super_destroy
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EReturn({
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, create, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			})
+			pos: #pos
+		}
+		params: null
+		ret: null
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _super_create
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EReturn({
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, closeSubState, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			})
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _super_closeSubState
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EReturn({
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, beatHit, Normal)
+					pos: #pos
+				}, [])
+				pos: #pos
+			})
+			pos: #pos
+		}
+		params: null
+		ret: TPath({
+			name: StdTypes
+			pack: []
+			params: []
+			sub: Void
+		})
+	})
+	meta: [{
+		name: :noCompletion
+		params: null
+		pos: #pos
+	}]
+	name: _super_beatHit
+	pos: #pos
+}]

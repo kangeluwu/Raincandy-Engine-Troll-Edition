@@ -15,7 +15,8 @@ typedef EventNote = {
 	strumTime:Float,
 	event:String,
 	value1:String,
-	value2:String
+	value2:String,
+	value3:String
 }
 
 typedef HitResult = {
@@ -40,13 +41,178 @@ enum abstract SustainPart(Int) from Int to Int
 	var PART = 1;
 	var END = 2;
 }
-
+typedef NoteDataFile =
+{
+	var defaultData:NoteData;
+	@:optional var datas:Array<NoteData>;
+}
+typedef NoteData ={
+	var color:Array<String>;
+	@:optional var pixelTarget:Array<Int>;
+	var amountUsed:Int;
+	@:optional var strumAnimations:StrumData;
+}
+typedef StrumData ={
+	@:optional var staticAnimNames :Array<String>;
+	@:optional var pressAnimNames  :Array<String>;
+	@:optional var confirmAnimNames  :Array<String>;
+}
 class Note extends NoteObject
 {
-	public static var swagWidth(default, set):Float = 160 * 0.7;
-	public static var halfWidth(default, null):Float = swagWidth * 0.5;
+	public var holdGlow:Bool = true; // Whether holds should "glow" / increase in alpha when held
+	public var baseAlpha:Float = 1;
 
-	public static var colArray:Array<String> = ['purple', 'blue', 'green', 'red'];
+	public static var spriteScale:Float = 0.7;
+	public static var swagWidth(default, set):Float = 160 * spriteScale;
+	public static var halfWidth(default, null):Float = swagWidth * 0.5;
+	public static var NOTE_AMOUNT:Int = PlayState.keyCount;
+	public static var colorData:NoteDataFile = {
+		defaultData:{
+		color:['purple', 'blue', 'green', 'red'],
+		strumAnimations:{
+			staticAnimNames:['arrowLEFT', 'arrowDOWN', 'arrowUP', 'arrowRIGHT'],
+			pressAnimNames:["left press", "down press", "up press", "right press"],
+			confirmAnimNames:["left confirm", "down confirm", "up confirm", "right confirm"],
+		},
+		amountUsed:4,
+		pixelTarget:[0,1,2,3]
+	},
+		datas:[
+			{
+				color:['green'],
+				amountUsed:4,
+				pixelTarget:[2],
+				strumAnimations:{
+					staticAnimNames:['arrowUP'],
+					pressAnimNames:["up press"],
+					confirmAnimNames:["up confirm"],
+				}
+			},
+			{
+				color:['purple', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,3],
+				strumAnimations:{
+					staticAnimNames:['arrowLEFT','arrowRIGHT'],
+					pressAnimNames:["left press","right press"],
+					confirmAnimNames:["left confirm", "right confirm"],
+				}
+			},
+			{
+				color:['purple', 'blue', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,1,3],
+				strumAnimations:{
+					staticAnimNames:['arrowLEFT','arrowDOWN','arrowRIGHT'],
+					pressAnimNames:["left press","down press","right press"],
+					confirmAnimNames:["left confirm", "down confirm", "right confirm"],
+				}
+			},
+			{
+				color:['purple', 'blue', 'green', 'red'],
+				amountUsed:4,
+				strumAnimations:{
+					staticAnimNames:['arrowLEFT', 'arrowDOWN', 'arrowUP', 'arrowRIGHT'],
+					pressAnimNames:["left press", "down press", "up press", "right press"],
+					confirmAnimNames:["left confirm", "down confirm", "up confirm", "right confirm"],
+				},
+				pixelTarget:[0,1,2,3]
+			},
+			{
+				color:['purple', 'blue', 'green', 'blue', 'red'],
+				amountUsed:4,
+				strumAnimations:{
+					staticAnimNames:['arrowLEFT', 'arrowDOWN', 'arrowUP', 'arrowDOWN', 'arrowRIGHT'],
+					pressAnimNames:["left press", "down press", "up press", "down press", "right press"],
+					confirmAnimNames:["left confirm", "down confirm", "up confirm", "down confirm", "right confirm"],
+				},
+				pixelTarget:[0,1,2,1,3]
+			},
+			{
+				color:['purple', 'green', 'red', 'purple', 'blue', 'red'],
+				amountUsed:4,
+				strumAnimations:{
+					staticAnimNames:['arrowLEFT', 'arrowDOWN', 'arrowRIGHT', 'arrowLEFT', 'arrowUP', 'arrowRIGHT'],
+					pressAnimNames:["left press", "down press", "right press", "left press", "up press", "right press"],
+					confirmAnimNames:["left confirm", "down confirm", "right confirm", "left confirm", "up confirm", "right confirm"],
+				},
+				pixelTarget:[0,2,3,0,1,3]
+			},
+			{
+				color:['purple', 'blue', 'red', 'green', 'purple', 'blue', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,1,3,2,0,1,3]
+			},
+			{
+				color:['purple', 'blue', 'green', 'red', 'purple', 'blue', 'green', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,1,2,3,0,1,2,3]
+			},
+			{
+				color:['purple', 'green', 'red', 'purple', 'blue', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,2,3,0,1,3]
+			},
+			{
+				color:['purple', 'green', 'red', 'purple', 'blue', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,2,3,0,1,3]
+			}
+	]
+	};
+
+	public static var defaultColorData:NoteDataFile = {
+		defaultData:{
+		color:['purple', 'blue', 'green', 'red'],
+		amountUsed:4,
+		pixelTarget:[0,1,2,3]
+	},
+		datas:[
+			{
+				color:['purple'],
+				amountUsed:4,
+				pixelTarget:[0]
+			},
+			{
+				color:['purple', 'green'],
+				amountUsed:4,
+				pixelTarget:[0,2]
+			},
+			{
+				color:['purple', 'blue', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,1,3]
+			},
+			{
+				color:['purple', 'blue', 'green', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,1,2,3]
+			},
+			{
+				color:['purple', 'blue', 'green', 'blue', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,1,2,1,3]
+			},
+			{
+				color:['purple', 'green', 'red', 'purple', 'blue', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,2,3,0,1,3]
+			},
+			{
+				color:['purple', 'blue', 'red', 'green', 'purple', 'blue', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,1,3,2,0,1,3]
+			},
+			{
+				color:['purple', 'blue', 'green', 'red', 'purple', 'blue', 'green', 'red'],
+				amountUsed:4,
+				pixelTarget:[0,1,2,3,0,1,2,3]
+			}
+	]
+	};
+	public static var pixelTarget:Array<Int> = colorData.defaultData.pixelTarget;
+	public static var colArray:Array<String> = colorData.defaultData.color;
+	public static var DATA_AMOUNT:Int = colorData.defaultData.amountUsed;
 	public static var quants:Array<Int> = [
 		4, // quarter note
 		8, // eight
@@ -67,7 +233,7 @@ class Note extends NoteObject
 		''
 	];
 
-	public static var quantShitCache = new Map<String, Bool>();
+	public static var quantShitCache = new Map<String, Null<String>>();
 
 	public static function getQuant(beat:Float){
 		var row:Int = Conductor.beatToNoteRow(beat);
@@ -157,6 +323,16 @@ class Note extends NoteObject
 	public var lowPriority:Bool = false; // Shadowmario's shitty workaround for really bad mine placement, yet still no *real* hitbox customization lol! Only used when PE Mod Compat is enabled in project.xml
 	#end
 
+	
+	/** If not null, then the characters will play these anims instead of the default ones when hitting this note. **/
+	public var characterHitAnimName:Null<String> = null;
+	/** If not null, then the characters will play these anims instead of the default ones when missing this note. **/
+	public var characterMissAnimName:Null<String> = null;
+	// suffix to be added to the base default anim names (for ex. the resulting anim name to be played would be 'singLEFT'+'suffix'+'miss')
+	// gets unused if the default anim names are overriden by the vars above
+	public var characterHitAnimSuffix:String = "";
+	public var characterMissAnimSuffix:String = "";
+
 	/** If you need to tap the note to hit it, or just have the direction be held when it can be judged to hit.
 	An example is Stepmania mines **/
 	public var requiresTap:Bool = true; 
@@ -175,10 +351,10 @@ class Note extends NoteObject
 	public var eventName:String = '';
 	public var eventVal1:String = '';
 	public var eventVal2:String = '';
+	public var eventVal3:String = '';
 	public var eventLength:Int = 0;
 
 	// etc
-	public var colorSwap:ColorSwap;
 	public var inEditor:Bool = false;
 	public var desiredZIndex:Float = 0;
 
@@ -203,11 +379,24 @@ class Note extends NoteObject
 	public var mAngle:Float = 0;
 	public var bAngle:Float = 0;
 
-	// unused pe hold shit
-	@:noCompletion public var copyX:Bool = true;
-	@:noCompletion public var copyY:Bool = true;
-	@:noCompletion public var copyAngle:Bool = true;
-	@:noCompletion public var copyAlpha:Bool = true;
+	// Determines how the note can be modified by the modchart system
+	// Could be moved into NoteObject? idk lol
+	public var copyX:Bool = true;
+	public var copyY:Bool = true;
+	public var copyAlpha:Bool = true;
+	public var copyVerts:Bool = true;
+	#if PE_MOD_COMPATIBILITY
+	@:isVar
+	public var multAlpha(get, set):Float;
+	function get_multAlpha()return alphaMod;
+	function set_multAlpha(v:Float)return alphaMod = v;
+	
+	// Angle is controlled by verts in the modchart system
+
+	@:isVar public var copyAngle(get, set):Bool;
+	function get_copyAngle()return copyVerts;
+	function set_copyAngle(val:Bool)return copyVerts = val;
+	#end
 
 	//// backwards compat
 	@:noCompletion public var realNoteData(get, set):Int; 
@@ -317,6 +506,7 @@ class Note extends NoteObject
         }
 
 		if (genScript == null || !genScript.exists("setupNoteTexture")){
+			texture = "";
 			if (genScript != null)
 			{
 				if (genScript.exists("texturePrefix"))
@@ -325,8 +515,9 @@ class Note extends NoteObject
 				if (genScript.exists("textureSuffix"))
 					texSuffix = genScript.get("textureSuffix");
 			}
-
-			texture = (genScript != null && genScript.exists("noteTexture")) ? genScript.get("noteTexture") : "";
+			
+			if (genScript != null && genScript.exists("noteTexture"))
+			texture = genScript.get("noteTexture");
         }
         else if(genScript.exists("setupNoteTexture"))
             genScript.executeFunc("setupNoteTexture", [this]);
@@ -343,6 +534,8 @@ class Note extends NoteObject
 
 	private function set_noteType(value:String):String {
 		noteSplashTexture = PlayState.splashSkin;
+		if (noteSplashTexture == null || noteSplashTexture.length < 1)
+			noteSplashTexture = 'noteSplashes';
 		if (value == 'Hurt Note')
 			value = 'Mine';
 
@@ -370,6 +563,7 @@ class Note extends NoteObject
 					gfNote = true;
 
 				default:
+					
 					if (inEditor){
 						if (ChartingState.instance != null)
 							noteScript = ChartingState.instance.notetypeScripts.get(value);
@@ -431,15 +625,9 @@ class Note extends NoteObject
 	{
 		super();
 		this.objType = NOTE;
+		var offset:Float = 0;
 
-        var offset:Float = 0;
-
-		if ((FlxG.state is PlayState))
-            offset = -(cast FlxG.state).offset;
-
-		this.strumTime = strumTime + offset;
-        
-        
+		this.strumTime = strumTime;
 		this.column = column;
 		this.prevNote = (prevNote==null) ? this : prevNote;
 		this.mustPress = gottaHitNote;
@@ -455,13 +643,17 @@ class Note extends NoteObject
 			else
 				quant = getQuant(Conductor.getBeatSinceChange(this.strumTime - offset));
 		}
-				
+		baseAlpha = isSustainNote ? 0.6 : 1;
+
+		if ((FlxG.state is PlayState))
+			this.strumTime -= (cast FlxG.state).offset;
+
 		if (!inEditor){ 
 			this.strumTime += ClientPrefs.noteOffset;            
             visualTime = PlayState.instance.getNoteInitialTime(this.strumTime);
 		}
 
-		if (column > -1)
+		if (column >= 0) 
 			this.noteMod = noteMod;
 		else
 			this.colorSwap = new ColorSwap();
@@ -493,10 +685,26 @@ class Note extends NoteObject
 	public var texPrefix:String = '';
 	public var tex:String;
 	public var texSuffix:String = '';
-	public function reloadNote(?prefix:String, ?texture:String, ?suffix:String, ?dir:String = '', hInd:Int = 0, vInd:Int = 0) {
+	// should move this to Paths maybe
+	public static function getQuantTexture(dir:String, fileName:String, textureKey:String) {
+		var quantKey:Null<String>;
+
+		if (quantShitCache.exists(textureKey)) {
+			quantKey = quantShitCache.get(textureKey);
+
+		}else {
+			quantKey = dir + "QUANT" + fileName;
+			if (!Paths.imageExists(quantKey)) quantKey = null;
+			quantShitCache.set(textureKey, quantKey);
+		}
+
+		return quantKey;
+	}
+public function reloadNote(?prefix:String, ?texture:String, ?suffix:String, ?folder:String, hInd:Int = 0, vInd:Int = 0) {
 		if(prefix == null) prefix = '';
 		if(texture == null) texture = '';
 		if(suffix == null) suffix = '';
+		if(folder == null) folder = '';
 
 		texPrefix = prefix;
 		tex = texture;
@@ -504,91 +712,84 @@ class Note extends NoteObject
 
 		if (genScript != null)
 			genScript.executeFunc("onReloadNote", [this, prefix, texture, suffix], this);
-        
+		
 		if (noteScript != null)
 			noteScript.executeFunc("onReloadNote", [this, prefix, texture, suffix], this);
 
 		if (genScript != null && genScript.executeFunc("preReloadNote", [this, prefix, texture, suffix], this) == Globals.Function_Stop)
 			return;
 
-		var animName:String = animation.curAnim != null ? animation.curAnim.name : null;
-		var lastScaleY:Float = scale.y;
+		////
+
+		/** Should join and check for shit in the following order:
+		 * 
+		 * folder + "/" + "QUANT" + prefix + name + suffix
+		 * folder + "/" + prefix + name + suffix
+		 * "QUANT"+ prefix + name + suffix
+		 * prefix + name + suffix
+		 */
+		inline function getTextureKey() { // made it a function just cause i think it's easier to read it like this
+			var skin:String = (texture.length>0) ? texture : PlayState.arrowSkin;
+			if (skin.length == 0 || skin == '' || skin == null)skin = 'NOTE_assets';
+			var split:Array<String> = skin.split('/');
+			split[split.length - 1] = prefix + split[split.length-1] + suffix; // add prefix and suffix to the texture file
+
+			var fileName:String = split.pop();
+			var folderName:String = folder + split.join('/');
+			var foldersToCheck:Array<String> = (folderName == '') ? [''] : ['$folderName/', ''];
+			var loadQuants:Bool = canQuant && ClientPrefs.noteSkin=='Quants';
+
+			var key:String = null;
+			for (dir in foldersToCheck) {
+				key = dir + fileName;
+	
+				if (loadQuants) {
+					var quantKey:Null<String> = getQuantTexture(dir, fileName, key);
+					if (quantKey != null) {
+						key = quantKey;
+						isQuant = true;
+						break;
+					}
+				}
+				
+				if (Paths.imageExists(key)) {
+					isQuant = false;
+					break;
+				}
+			}
+			
+			return key; 
+		}
 
 		////
-		var skin:String = (texture.length > 0) ? texture : PlayState.arrowSkin;
-		var arraySkin:Array<String> = skin.split('/');
-		arraySkin[arraySkin.length - 1] = prefix + arraySkin[arraySkin.length-1] + suffix; // add prefix and suffix to the texture file
-		var blahblah:String = arraySkin.join('/');
-
-		var daDirs = [''];
-		if (dir.trim() != '')
-			daDirs.unshift(dir + '/');	
-
-		var checkQuants:Bool = canQuant && ClientPrefs.noteSkin == 'Quants';
 		var wasQuant:Bool = isQuant;
-		isQuant = false;
-
-		for (dir in daDirs)
-		{
-			var fullPath:String = dir + blahblah;
-
-			if (checkQuants)
-			{
-				var quantBlahblah = "QUANT" + blahblah;
-				var useQuantTex:Bool;
-
-				if (quantShitCache.exists(fullPath)){
-					useQuantTex = quantShitCache.get(fullPath);
-				}else{
-					useQuantTex = Paths.imageExists(dir + quantBlahblah);
-					quantShitCache.set(fullPath, useQuantTex);
-				}
-
-				if (useQuantTex) {
-                    isQuant = true;
-					blahblah = quantBlahblah;
-					fullPath = dir + quantBlahblah;
-				}
-			}
-
-			if (wasQuant != isQuant)
-				updateColours();
-
-			if (Paths.imageExists(fullPath))
-			{
-				if (vInd > 0 && hInd > 0){
-					var graphic = Paths.image(fullPath);
-					width = graphic.width / hInd;
-					height = graphic.height / vInd;
-					loadGraphic(graphic, true, Math.floor(width), Math.floor(height));
-					loadIndNoteAnims();
-					break;
-				}else{	
-					frames = Paths.getSparrowAtlas(fullPath);
-					loadNoteAnims();
-					break;
-				}
-			}
-		}
-		
-		if(isSustainNote)
-			scale.y = lastScaleY;
-		defScale.copyFrom(scale);
-
-		if (animName != null)
-			animation.play(animName, true);
-
+		var textureKey:String = getTextureKey();
+		if (wasQuant != isQuant) updateColours();
+ 		
+		if (vInd > 0 && hInd > 0) {
+			var graphic = Paths.image(textureKey);
+			setSize(graphic.width / hInd, graphic.height / vInd);
+			loadGraphic(graphic, true, Math.floor(width), Math.floor(height));
+			loadIndNoteAnims();
+		}else {	
+			frames = Paths.getSparrowAtlas(textureKey);
+			loadNoteAnims();
+		} 
+	
 		if (inEditor)
 			setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
 		
+		defScale.copyFrom(scale);
 		updateHitbox();
-
+		
+		////	
 		if (genScript != null)
 			genScript.executeFunc("postReloadNote", [this, prefix, texture, suffix], this);
 
 		if (noteScript != null)
 			noteScript.executeFunc("postReloadNote", [this, prefix, texture, suffix], this);
 	}
+
 
 	public function loadIndNoteAnims()
 	{
@@ -617,13 +818,32 @@ class Note extends NoteObject
 
 	function _loadIndNoteAnims()
 	{
-		if (isSustainNote)
-		{
-			animation.add(colArray[column] + 'holdend', [column + 4]);
-			animation.add(colArray[column] + 'hold', [column]);
-		}
-		else
-			animation.add(colArray[column] + 'Scroll', [column + 4]);
+		var data = DATA_AMOUNT;
+		if (DATA_AMOUNT > colArray.length)
+			data = colArray.length;
+		var colorName:String = colArray[column % data];		
+		var animName:String;
+		var animFrames:Array<Int>;
+		var targetPixel:Null<Int> = pixelTarget[column % data];
+		if (targetPixel == null)
+			targetPixel = column;
+		switch (holdType) {
+			default:	
+				animName = colorName+'Scroll';
+				animFrames = [targetPixel + data];
+
+			case PART:
+				animName = colorName+'hold';
+				animFrames = [targetPixel];
+ 
+			case END:
+				animName = colorName+'holdend';
+				animFrames = [targetPixel + data];
+		} 
+ 
+		animation.add(animName, animFrames);
+		animation.play(animName, true);
+
 	}
 
 
@@ -650,25 +870,43 @@ class Note extends NoteObject
 	}
 
 	function _loadNoteAnims() {
-		animation.addByPrefix(colArray[column] + 'Scroll', colArray[column] + '0');
+		var data = DATA_AMOUNT;
+		if (DATA_AMOUNT > colArray.length)
+			data = colArray.length;
+		var colorName:String = colArray[column % data];		
+		var animName:String;
+		var animPrefix:String;
 
-		if (isSustainNote)
-		{
-			animation.addByPrefix('purpleholdend', 'pruple end hold'); // ?????
-            // this is autistic wtf
-			animation.addByPrefix(colArray[column] + 'holdend', colArray[column] + ' hold end');
-			animation.addByPrefix(colArray[column] + 'hold', colArray[column] + ' hold piece');
-		}
-
-		scale.set(0.7, 0.7);
-		updateHitbox();
+		switch (holdType) {
+			default:	
+				animName = colorName+'Scroll';
+				animPrefix = colorName+'0';
+ 
+			case PART:
+				animName = colorName+'hold';
+				animPrefix = '$colorName hold piece';
+				
+ 
+			case END:
+				animName = colorName+'holdend';
+				animPrefix = '$colorName hold end';
+				if (colorName == "purple")
+					animPrefix ='pruple end hold'; // ?????
+				// this is autistic wtf
+				
+		} 
+ 
+		animation.addByPrefix(animName, animPrefix);
+		animation.play(animName, true);
+ 
+		scale.set(spriteScale, spriteScale); 
 	}
 
 	override function draw()
 	{
-		var holdMult:Float = isSustainNote ? 0.6 : 1;
+		var holdMult:Float = baseAlpha;
 
-		if (isSustainNote && parent.wasGoodHit)
+		if (isSustainNote && parent.wasGoodHit && holdGlow)
 			holdMult = FlxMath.lerp(0.3, 1, parent.tripProgress);
         
 		colorSwap.daAlpha = alphaMod * alphaMod2 * holdMult;

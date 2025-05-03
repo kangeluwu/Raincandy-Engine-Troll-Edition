@@ -146,6 +146,8 @@ class StartupState extends FlxTransitionableState
 
 		FlxTransitionableState.defaultTransIn = FadeTransitionSubstate;
 		FlxTransitionableState.defaultTransOut = FadeTransitionSubstate;
+		funkin.states.FreeplayCategoryState.getCategories();
+	
 	}
 
 	override function create()

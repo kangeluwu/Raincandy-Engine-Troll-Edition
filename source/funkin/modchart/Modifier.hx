@@ -195,6 +195,12 @@ class Modifier {
 		this.parent = parent;
 		for (submod in getSubmods())
 			addSubmod(submod);
+		percents = [];
+		target_percents = [];
+		for (i in 0...modMgr.playerAmount){
+			percents.push(0);
+			target_percents.push(0);
+		}
 	}
 
     @:allow(funkin.modchart.ModManager)

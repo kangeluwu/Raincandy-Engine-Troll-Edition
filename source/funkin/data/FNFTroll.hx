@@ -69,8 +69,8 @@ class FNFTroll extends FNFLegacyBasic<TrollJSONFormat> {
 
 		var value1:Dynamic = values[0] ?? "";
 		var value2:Dynamic = values[1] ?? "";
-
-		return [event.time, [[event.name, Std.string(value1), Std.string(value2)]]];
+		var value3:Dynamic = values[2] ?? "";
+		return [event.time, [[event.name, Std.string(value1), Std.string(value2), Std.string(value3)]]];
 	}
 
 

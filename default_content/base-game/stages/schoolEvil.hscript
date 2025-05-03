@@ -8,6 +8,8 @@ function onCreate()
 		game.hudSkin = 'pixel';
 		game.hudSkinScript.set("rosesHealthBar", false);
 	}
+
+	PlayState.isPixelStage = true;
 }
 
 function roundTo(num, roundFactor){
@@ -41,3 +43,6 @@ function onLoad(){
 	}
 }
 
+function onDestroy(){
+	PlayState.isPixelStage = false;
+}

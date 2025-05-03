@@ -27,7 +27,6 @@ class StrumNote extends NoteObject
 	public var sustainReduce:Bool = true;
 	public var downScroll:Bool = false;
 
-	private var colorSwap:ColorSwap;
 	//private var player:Int;
 	
 	public var texture(default, set):String = null;
@@ -110,7 +109,7 @@ class StrumNote extends NoteObject
 		return '(column: $column | texture $texture | visible: $visible)';
 	}
 
-	public function new(x:Float, y:Float, leColumn:Int, ?field:PlayField, ?hudSkin:String = 'default') {
+	public function new(x:Float, y:Float, leColumn:Int, ?field:PlayField = null, ?hudSkin:String = 'default') {
 		colorSwap = new ColorSwap();
 		shader = colorSwap.shader;
         this.field = field;
@@ -124,8 +123,9 @@ class StrumNote extends NoteObject
 	}
 
 	// stupid
-	static var directionUpperArray = ["LEFT", "DOWN", "UP", "RIGHT"];
-	static var directionLowerArray = ["left", "down", "up", "right"];
+	static var staticAnimNames = ['arrowLEFT', 'arrowDOWN', 'arrowUP', 'arrowRIGHT']; 
+	static var pressAnimNames = ["left press", "down press", "up press", "right press"];
+	static var confirmAnimNames = ["left confirm", "down confirm", "up confirm", "right confirm"];
 	public function reloadNote()
 	{
 		// TODO: add indices support n shit
@@ -135,22 +135,24 @@ class StrumNote extends NoteObject
 		isQuant = false;
 		
 		if (ClientPrefs.noteSkin == 'Quants') {
-			var quantTexKey = 'QUANT$texture';
-			if (Paths.imageExists(quantTexKey)) {
-				textureKey = quantTexKey;
-				isQuant = true;
-			}
-		}
+			textureKey = Note.getQuantTexture('', texture, texture);
+			if (textureKey != null) isQuant = true;
+			else textureKey = texture;
+
+		}else
+			textureKey = texture;
+
 
 		frames = Paths.getSparrowAtlas(textureKey);
-		animation.addByPrefix('static', 'arrow' + directionUpperArray[column], 24, false);
-		animation.addByPrefix('pressed', directionLowerArray[column] + ' press', 24, false);
-		animation.addByPrefix('confirm', directionLowerArray[column] + ' confirm', 24, false);
+		var column:Int = column % staticAnimNames.length;
+		animation.addByPrefix('static', staticAnimNames[column], 24, false);
+		animation.addByPrefix('pressed', pressAnimNames[column], 24, false);
+		animation.addByPrefix('confirm', confirmAnimNames[column], 24, false);
 
 		if (lastAnim != null)
 			playAnim(lastAnim, true);
 
-		scale.set(0.7, 0.7);
+		scale.x = scale.y = Note.spriteScale;
 		defScale.copyFrom(scale);
 		updateHitbox();
 	}

@@ -2,18 +2,19 @@ package funkin.objects;
 
 import flixel.util.FlxDestroyUtil;
 import flixel.math.FlxPoint;
-
+import funkin.objects.shaders.ColorSwap;
 enum abstract ObjectType(#if cpp cpp.UInt8 #else Int #end)
 {
 	var UNKNOWN = -1;
 	var NOTE;
 	var STRUM;
 	var SPLASH;
+	var HOLD;
 }
 
 class NoteObject extends FlxSprite {
 	public var objType:ObjectType = UNKNOWN;
-
+	public var colorSwap:ColorSwap = new ColorSwap();
     public var column:Int = 0;
     @:isVar
     public var noteData(get,set):Int; // backwards compat
@@ -39,6 +40,7 @@ class NoteObject extends FlxSprite {
 	public function new(?x:Float, ?y:Float){
 		super(x, y);
 	}
+
 
 	override function destroy()
 	{

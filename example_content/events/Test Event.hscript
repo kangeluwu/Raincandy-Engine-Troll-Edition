@@ -13,7 +13,7 @@ function onLoad(){
 }
 
 function onPush(eventNote){
-    trace("Event was pushed! Value 1: " + eventNote.value1 + ", Value 2: " + eventNote.value2);
+    trace("Event was pushed! Value 1: " + eventNote.value1 + ", Value 2: " + eventNote.value2 + ", Value 3: " + eventNote.value2);
 }
 
 function shouldPush(eventNote):Bool{

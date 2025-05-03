@@ -16,7 +16,7 @@ import funkin.data.JudgmentManager;
 import funkin.data.JudgmentManager.Wife3;
 import funkin.states.PlayState;
 import funkin.states.MusicBeatState;
-
+import funkin.objects.*;
 using StringTools;
 
 /*
@@ -80,7 +80,8 @@ class PlayField extends FlxTypedGroup<FlxBasic>
 	public var spawnedByData:Array<Array<Note>> = [[], [], [], []]; // spawned notes by data. Used for input
 
 	public var tapsByData:Array<Array<Note>> = [[], [], [], []]; // spawned tap notes by data. Used for input but can't change spawnedByData cus of holds n shit lol!
-
+	public var sustainReduce:Bool = true;
+	public var autoIdled:Bool = true;
 	public var noteQueue:Array<Array<Note>> = [[], [], [], []]; // unspawned notes
 	public var strumNotes:Array<StrumNote> = []; // receptors
 	public var characters:Array<Character> = []; // characters that sing when field is hit
@@ -89,7 +90,7 @@ class PlayField extends FlxTypedGroup<FlxBasic>
 	public var modManager:ModManager; // the mod manager. will be set automatically by playstate so dw bout this
 	public var isPlayer:Bool = false; // if this playfield takes input from the player
 	public var inControl:Bool = true; // if this playfield will take input at all
-	public var keyCount(default, set):Int = 4; // How many lanes are in this field
+	public var keyCount(default, set):Int = PlayState.keyCount; // How many lanes are in this field
 	public var autoPlayed(default, set):Bool = false; // if this playfield should be played automatically (botplay, opponent, etc)
 
     public var x:Float = 0;
@@ -147,6 +148,7 @@ class PlayField extends FlxTypedGroup<FlxBasic>
 	public var holdPressCallback:NoteCallback; // function that gets called when a hold is stepped on. Only really used for calling script events. Return 'false' to not do hold logic
     public var holdReleaseCallback:NoteCallback; // function that gets called when a hold is released. Only really used for calling script events.
 
+	public var grpNoteHoldSplashes:FlxTypedGroup<NoteHoldCover>; // notesplashes
     public var grpNoteSplashes:FlxTypedGroup<NoteSplash>; // notesplashes
 	public var strumAttachments:FlxTypedGroup<NoteObject>; // things that get "attached" to the receptors. custom splashes, etc.
 
@@ -163,6 +165,9 @@ class PlayField extends FlxTypedGroup<FlxBasic>
 	public function new(modMgr:ModManager){
 		super();
 		this.modManager = modMgr;
+
+		grpNoteHoldSplashes = new FlxTypedGroup<NoteHoldCover>();
+		add(grpNoteHoldSplashes);
 
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 		add(grpNoteSplashes);
@@ -350,6 +355,11 @@ class PlayField extends FlxTypedGroup<FlxBasic>
 			babyArrow.cameras = cameras;
 			strumNotes.push(babyArrow);
 			babyArrow.postAddedToGroup();
+
+			var fuckerNoteCover = new NoteHoldCover(babyArrow.x,babyArrow.y,i, (FlxG.state == PlayState.instance) ? PlayState.instance.hudSkin : 'default');
+			fuckerNoteCover.setHoldPos(babyArrow.x,babyArrow.y,i,0,0,0);
+			fuckerNoteCover.handleRendering = false;
+			grpNoteHoldSplashes.add(fuckerNoteCover);
 		}
 	}
 
@@ -486,7 +496,7 @@ class PlayField extends FlxTypedGroup<FlxBasic>
 
                         
 						if(isHeld && !daNote.isRoll){
-							if (receptor.animation.finished || receptor.animation.curAnim.name != "confirm") 
+							if (sustainReduce && (receptor.animation.finished || receptor.animation.curAnim.name != "confirm")) 
 								receptor.playAnim("confirm", true);
 							
 							daNote.tripProgress = 1.0;
@@ -506,7 +516,7 @@ class PlayField extends FlxTypedGroup<FlxBasic>
 								tail.ignoreNote = true;
 							}
                             isHolding[daNote.column] = false;
-                            if (!isHeld)
+                            if (autoIdled && !isHeld)
                                 receptor.playAnim("static", true);
 
 						}else{
@@ -522,7 +532,7 @@ class PlayField extends FlxTypedGroup<FlxBasic>
                                 //trace("finished hold");
 								daNote.holdingTime = daNote.sustainLength;
 								isHolding[daNote.column] = false;
-								if (!isHeld)
+								if (autoIdled && !isHeld)
 									receptor.playAnim("static", true);
 							}
 

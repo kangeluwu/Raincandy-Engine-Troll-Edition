@@ -5,10 +5,10 @@ class HScriptOverridenState extends HScriptedState
 {
 	public var parentClass:Class<MusicBeatState> = null;
 
-	override function _startExtensionScript(folder:String, scriptName:String) 
+	override function _startExtensionScript(folder:String, scriptName:String,scriptPath:String)
 		return;
 
-	private function new(parentClass:Class<MusicBeatState>, scriptFullPath:String) 
+	private function new(parentClass:Class<MusicBeatState>, scriptFullPath:String, args:Array<Dynamic> = null) 
 	{
 		if (parentClass == null || scriptFullPath == null) {
 			trace("Uh oh!", parentClass, scriptFullPath);
@@ -17,32 +17,40 @@ class HScriptOverridenState extends HScriptedState
 
 		this.parentClass = parentClass;
 		
-		super(scriptFullPath, [getShortClassName(parentClass) => parentClass]);
+		super(scriptFullPath, [getShortClassName(parentClass) => parentClass], args);
 	}
 
-	static public function findClassOverride(cl:Class<MusicBeatState>):Null<HScriptOverridenState> 
+	static public function findClassOverride(cl:Class<MusicBeatState>, args:Array<Dynamic> = null):Null<HScriptOverridenState> 
 	{
 		var fullName = Type.getClassName(cl);
 		for (filePath in Paths.getFolders("states"))
 		{
-			var fileName = 'override/$fullName.hscript';
-			var fullPath = filePath + fileName;
-			if (Paths.exists(fullPath))
-				return new HScriptOverridenState(cl, fullPath);
-
-			fileName = 'override/${getShortClassName(cl)}.hscript';
-			fullPath = filePath + fileName;
-			if (Paths.exists(fullPath))
-				return new HScriptOverridenState(cl, fullPath);
+			var folderedName = 'override/${fullName.split(".").join("/")}';
+			var fileName = 'override/$fullName'; // deprecated
+			var className = 'override/${getShortClassName(cl)}';
+			for(ext in Paths.HSCRIPT_EXTENSIONS){
+				var fullPath = filePath + fileName + '.$ext';
+				var fullFolderPath = filePath + folderedName + '.$ext';
+				var altPath = filePath + className + '.$ext';
+				// TODO: Trim off the funkin.states and check that, too.
+				
+				if (Paths.exists(fullFolderPath))
+					return new HScriptOverridenState(cl, fullFolderPath, args);
+				else if (Paths.exists(fullPath))
+					return new HScriptOverridenState(cl, fullPath, args);
+				else if (Paths.exists(altPath))
+					return new HScriptOverridenState(cl, altPath, args);
+			}
 		}
+
 
 		return null;
 	}
 
-	static public function requestOverride(state:MusicBeatState):Null<HScriptOverridenState>
+	static public function requestOverride(state:MusicBeatState, args:Array<Dynamic> = null):Null<HScriptOverridenState>
 	{
 		if (state != null && state.canBeScripted)
-			return findClassOverride(Type.getClass(state));
+			return findClassOverride(Type.getClass(state), args);
 		
 		return null;
 	}

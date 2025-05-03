@@ -76,7 +76,7 @@ class WeekData
                     }
                 }
 				if (inFreeplay) {
-					if (daJson.freeplaySongs != null){
+					if (daJson.freeplaySongs != null && daJson.freeplaySongs.length > 0){//Bruh空的还要他干啥
 						var freeplay_week:funkin.data.WeekData.WeekMetadata = {
 							name: "Freeplay Songs",
                             category: mod + "-freeplay",

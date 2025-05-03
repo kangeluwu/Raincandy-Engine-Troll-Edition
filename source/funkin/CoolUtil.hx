@@ -4,9 +4,9 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxEase;
 import flixel.math.FlxPoint;
 import flixel.math.FlxMath;
-
+import flixel.util.FlxSort;
 using StringTools;
-
+import tjson.TJSON;
 class CoolUtil
 {
 	@:noCompletion static var _point:FlxPoint = FlxPoint.get();
@@ -25,7 +25,11 @@ class CoolUtil
 
 		return false;
 	}
-
+	public static inline function byZIndex(order:Int, a:FlxBasic, b:FlxBasic):Int
+		{
+		  if (a == null || b == null) return 0;
+		  return FlxSort.byValues(order, a.zPos, b.zPos);
+		}
 	public static function alphabeticalSort(a:String, b:String) {
 		// https://haxe.motion-twin.narkive.com/BxeZgKeh/sort-an-array-string-alphabetically
 		a = a.toLowerCase();
@@ -228,7 +232,9 @@ class CoolUtil
 	public static function precacheSound(sound:String, ?library:String = null):Void {
 		Paths.sound(sound, library);
 	}
-
+	inline public static function capitalize(text:String)
+		return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
+	
 	public static function precacheMusic(sound:String, ?library:String = null):Void {
 		Paths.music(sound, library);
 	}
@@ -239,5 +245,17 @@ class CoolUtil
 		#else
 		flixel.FlxG.openURL(site);
 		#end
+	}
+
+	
+	// can either return an array or a dynamic
+	public static function parseJson(json:String):Dynamic {
+		// the reason we do this is to make it easy to swap out json parsers
+		return TJSON.parse(json);
+	}
+	public static function stringifyJson(json:Dynamic, ?fancy:Bool = true):String {
+		// use tjson to prettify it
+		var style:String = if (fancy) 'fancy' else null;
+		return TJSON.encode(json,style);
 	}
 }

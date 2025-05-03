@@ -94,7 +94,17 @@ class HScriptedHUD extends BaseHUD {
 		script.call("set_combo", [value]);
 		return combo = value;
 	}
-
+	override public function getHealthbar():FNFHealthBar {
+		var obj = script.call("getHealthbar", []);
+		var result:FNFHealthBar = null;
+		if (obj != funkin.scripts.Globals.Function_Continue){
+			if ((obj is FNFHealthBar))
+				{
+					result = cast obj;
+				}
+		}
+		return result;
+	}
 	override public function noteJudged(judge:JudgmentData, ?note:Note, ?field:PlayField)
 	{
 		super.noteJudged(judge, note, field);
@@ -125,7 +135,7 @@ class HScriptedHUD extends BaseHUD {
 
 	public static function fromName(iP1:String, iP2:String, songName:String, stats:Stats, scriptName:String):Null<HScriptedHUD>
 	{
-		var fileName:String = 'scripts/$scriptName.hscript';
+		var fileName:String = 'huds/$scriptName.hscript';
 		for (file in [#if MODS_ALLOWED Paths.modFolders(fileName), #end Paths.getPreloadPath(fileName)])
 		{
 			if (!Paths.exists(file))

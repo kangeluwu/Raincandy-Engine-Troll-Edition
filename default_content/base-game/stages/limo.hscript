@@ -16,7 +16,9 @@ function onAddSpriteGroups(){
 	game.add(this.foreground);
 	return Function_Stop;
 }
-
+function update(e){
+	limo.visible = this.visible;
+}
 function onLoad()
 {
 	//if (game.gf.curCharacter == 'gf') game.changeCharacter("gf-car", 2);
@@ -64,6 +66,11 @@ function onLoad()
 	
 	carTmr = new FlxTimer();
 	
+	if (!inPlaystate && !inTitlescreen)
+	{
+	add(limo);
+	add(foreground);
+	}
 	if (!inTitlescreen)
 		return;
 	

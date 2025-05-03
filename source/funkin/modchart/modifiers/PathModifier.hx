@@ -87,7 +87,7 @@ class PathModifier extends NoteModifier
 		var tornadoVal = getValue(player);
 		if (tornadoVal != 0) {
 			// from schmovin!!
-			var playerColumn = data % 4;
+			var playerColumn = data % PlayState.keyCount;
 			var columnPhaseShift = playerColumn * PI_THIRD;
 			var phaseShift = diff / 135;
 			var returnReceptorToZeroOffsetX = (-FlxMath.fastCos(-columnPhaseShift) + 1) * Note.halfWidth * 3;

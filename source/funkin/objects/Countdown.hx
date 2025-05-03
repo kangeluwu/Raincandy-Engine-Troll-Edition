@@ -3,7 +3,7 @@ package funkin.objects;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
-
+import flixel.FlxCamera;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
@@ -17,11 +17,12 @@ import funkin.scripts.Globals;
  * Handles Gameplay countdown, also optionally used in the Pause Menu if `ClientPrefs.countUnpause` is set to true.
 **/
 class Countdown {
+	public var cameras:Array<FlxCamera> = null;
 	public var sprite:Null<FlxSprite>;
 	public var sound:Null<FlxSound>;
 	public var timer:FlxTimer;
 	public var tween:FlxTween;
-
+	public var ticks:Int = 5;
 	public var introAlts:Array<Null<String>> = ["onyourmarks", 'ready', 'set', 'go'];
 	public var introSnds:Array<Null<String>> = ["intro3", 'intro2', 'intro1', 'introGo'];
 	public var introSoundsSuffix:String = "";
@@ -52,6 +53,7 @@ class Countdown {
 		sprite = null;
 		sound = null;
 		position = 0;
+		ticks = 5;
 		parent = null;
 		game = null;
 	}
@@ -67,7 +69,7 @@ class Countdown {
 				this.destroy();
 			}
 			position++;
-		}, 5);
+		}, ticks);
 		return this;
 	}
 
@@ -103,7 +105,8 @@ class Countdown {
 				sprite = new FlxSprite(0, 0, sprImage);
 				sprite.scrollFactor.set();
 				sprite.updateHitbox();
-				if (game != null) sprite.cameras = [game.camHUD];
+				if (cameras != null) sprite.cameras = cameras;
+				else if (game != null) sprite.cameras = [game.camHUD];
 				else sprite.cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 				sprite.screenCenter();
 			}

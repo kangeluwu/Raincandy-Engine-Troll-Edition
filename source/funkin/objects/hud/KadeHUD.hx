@@ -106,7 +106,22 @@ class KadeHUD extends BaseHUD
 		// fuck it
 		changedOptions([]);
 	}
+/*
+    override function changedCharacter(id:Int, char:Character){
 
+        switch(id){
+            case 1:
+				iconP1.changeIcon(char.healthIcon);
+            case 2:
+				iconP2.changeIcon(char.healthIcon);
+            case 3:
+                // gf icon
+            default:
+                // idk
+        }
+        
+		super.changedCharacter(id, char);
+    }*/
 	override function changedOptions(changed){
 		super.changedOptions(changed);
 

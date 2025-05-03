@@ -12,7 +12,11 @@ import funkin.api.Discord.DiscordClient;
 #end
 
 #end
-
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
+using StringTools;
 enum OptionType
 {
 	Toggle;
@@ -393,11 +397,25 @@ class ClientPrefs
 				value: false,
 				data: []
 			},
+			"noteHoldSplashes" => {
+				display: "Note Hold Splashes",
+				desc: "When toggled, hitting sustain note will cause holding particles to spawn.",
+				type: Toggle,
+				value: true,
+				data: []
+			},
 			"noteSplashes" => {
 				display: "Note Splashes",
 				desc: "When toggled, hitting top judgements will cause particles to spawn.",
 				type: Toggle,
 				value: true,
+				data: []
+			},
+			"rhythmMode" => {
+				display: "Normalized Rhythm HUD",
+				desc: "When toggled, using the Normalized Rhythm games HUD.",
+				type: Toggle,
+				value: false,
 				data: []
 			},
 			"noteSkin" => {
@@ -455,7 +473,7 @@ class ClientPrefs
 				value: "Default",
 				data: [
 					"recommendsRestart" => true,
-					"options" => ["Default", "Advanced", "Kade"]
+					"options" => ["Default", "Advanced", "Kade", "Vanilla"], 
 				]
 			},
 
@@ -537,6 +555,12 @@ class ClientPrefs
 				type: Button,
 				data: []
 			},
+			"customizeSplashes" => {
+				display: "Customize Splashes",
+				desc: "Lets you change the offsets of your splashes.",
+				type: Button,
+				data: []
+			},
 			// video
 			"shaders" => {
 				display: "Shaders",
@@ -583,7 +607,6 @@ class ClientPrefs
 				value: false,
 				data: []
 			},
-			/*
 			"modcharts" => {
 				display: "Modcharts",
 				desc: "When toggled, modcharts will be used on some songs.\nWARNING: Disabling modcharts on modcharted songs will disable scoring!",
@@ -591,7 +614,7 @@ class ClientPrefs
 				value: true,
 				data: ["requiresRestart" => true]
 			},
-			*/
+
 			#if tgt
 			"ruin" => {
 				display: "Ruin The Mod",
@@ -744,14 +767,44 @@ class ClientPrefs
 
 	public static function initialize(){
 		defaultOptionDefinitions.get("framerate").value = FlxG.stage.application.window.displayMode.refreshRate;
+		
 		#if MULTILANGUAGE
 		locale = openfl.system.Capabilities.language;
 		#end
 
 		optionSave.bind("options_v2");
 		loadDefaultKeys();
+		reloadHud();
     }
-	
+	public static function reloadHud(op:Map<String,OptionData> = null){
+		if (op == null)op = defaultOptionDefinitions;
+		#if (sys && hscript)
+		var hudFileLoaded:Map<String, Bool> = new Map();
+		var directories:Array<String> = Paths.getFolders('huds');
+		var hi = getOptionDefinitions().get("etternaHUD").data.get('options');
+		for (directory in directories)
+		{
+			if (!Paths.exists(directory))
+				continue;
+
+			for (file in FileSystem.readDirectory(directory))
+			{
+				var path = haxe.io.Path.join([directory, file]);
+				if (FileSystem.isDirectory(path) || !file.endsWith('.hscript'))
+					continue;
+
+				var hudToCheck:String = file.substr(0, file.length - '.hscript'.length);
+				if (hudFileLoaded.exists(hudToCheck))
+					continue;
+
+				hudFileLoaded.set(hudToCheck, true);
+				hi.push(hudToCheck);
+			}
+		}
+		trace(hi);
+		op.get("etternaHUD").data.set('options',hi);
+		#end
+	}
 
 	public static function save(?definitions:Map<String, OptionData>)
 	{

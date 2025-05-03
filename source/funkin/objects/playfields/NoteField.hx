@@ -218,6 +218,21 @@ class NoteField extends FieldBase
 			drawQueue.push(object);
 		}
 
+		// draw noteholdsplashes
+		for (obj in field.grpNoteHoldSplashes.members)
+		{
+			if (!obj.alive || !obj.visible)
+				continue;
+
+			var pos = modManager.getPos(0, 0, curDecBeat, obj.column, modNumber, obj, this, perspectiveArrDontUse);
+			var object = drawNote(obj, pos);
+			if (object == null)
+				continue;
+			object.zIndex += 1;
+			lookupMap.set(obj, object);
+			drawQueue.push(object);
+		}
+		
 		// draw notesplashes
 		for (obj in field.grpNoteSplashes.members)
 		{
@@ -232,6 +247,7 @@ class NoteField extends FieldBase
 			lookupMap.set(obj, object);
 			drawQueue.push(object);
 		}
+
 
 		// draw strumattachments
 		for (obj in field.strumAttachments.members)
@@ -459,7 +475,7 @@ class NoteField extends FieldBase
 			var topWidth = FlxMath.lerp(tWid, bWid, prog) * scalePoint.x;
 			var botWidth = FlxMath.lerp(tWid, bWid, nextProg) * scalePoint.x;
 
-			for (_ in 0...4)
+			for (_ in 0...field.keyCount)
 			{
 				alphas.push(info.alpha);
 				glows.push(info.glow);
@@ -594,7 +610,8 @@ class NoteField extends FieldBase
 				case 3: quad3;
 				default: null;
 			};
-			var vert = VectorHelpers.rotateV3(quad, 0, 0, FlxAngle.TO_RAD * sprite.angle);
+			var rotAngle = sprite.frame.angle;
+			var vert = VectorHelpers.rotateV3(quad, 0, 0, FlxAngle.TO_RAD * (sprite.angle + rotAngle));
 			vert.x = vert.x + sprite.offsetX;
 			vert.y = vert.y + sprite.offsetY;
 

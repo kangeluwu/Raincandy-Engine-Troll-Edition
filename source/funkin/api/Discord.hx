@@ -24,9 +24,9 @@ class DiscordClient
 		"icon"
 	];
 	
-	private static var discordDaemon:Thread;
-	private static var mutex:Mutex = new Mutex(); // whatever the fuck this is
-	private static var lastPresence:DiscordRichPresence;
+	public static var discordDaemon:Thread;
+	public static var mutex:Mutex = new Mutex(); // whatever the fuck this is
+	public static var lastPresence:DiscordRichPresence;
 
 	////
 	public static var currentID(default, null):String = defaultID;

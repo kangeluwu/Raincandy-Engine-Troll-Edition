@@ -7,12 +7,12 @@ import openfl.media.Sound;
 import openfl.ui.MouseCursor;
 import openfl.ui.Mouse;
 import haxe.io.Path;
-
+import flixel.util.FlxSort;
 #if HSCRIPT_ALLOWED
 import funkin.scripts.FunkinHScript;
 import funkin.states.scripting.*;
 #end
-
+import flixel.addons.display.FlxRuntimeShader;
 #if SCRIPTABLE_STATES
 import funkin.states.scripting.HScriptOverridenState;
 
@@ -48,10 +48,60 @@ class MusicBeatState extends FlxUIState
 	@:noCompletion public function _getScriptDefaultVars() 
 		return new Map<String, Dynamic>();
 	
-	@:noCompletion public function _startExtensionScript(folder:String, scriptName:String) 
+	@:noCompletion public function _startExtensionScript(folder:String, scriptName:String, scriptPath:String) 
 		return;
 
 	////
+	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
+	public function createRuntimeShader(name:String,?glslVersion:Int = 120):FlxRuntimeShader
+		{
+	
+			#if (MODS_ALLOWED && sys)
+			if(!runtimeShaders.exists(name) && !initShader(name))
+			{
+				FlxG.log.warn('Shader $name is missing!');
+				return new FlxRuntimeShader();
+			}
+	
+			var arr:Array<String> = runtimeShaders.get(name);
+			return Paths.getShader(arr[0], arr[1],glslVersion);
+			#else
+			FlxG.log.warn("Platform unsupported for Runtime Shaders!");
+			return null;
+			#end
+		}
+	public function initShader(name:String)
+	{
+
+		if(runtimeShaders.exists(name))
+		{
+			FlxG.log.warn('Shader $name was already initialized!');
+			return true;
+		}
+
+		var frag:String = Paths.getShaderFragment(name);
+		var vert:String = Paths.getShaderVertex(name);
+		var found:Bool = false;
+		if(frag != null)
+		{
+			found = true;
+		}
+
+		if (vert != null)
+		{
+			found = true;
+		}
+
+		if(found)
+		{
+			runtimeShaders.set(name, [frag, vert]);
+			//trace('Found shader $name!');
+			return true;
+		}
+
+		FlxG.log.warn('Missing shader $name .frag AND .vert files!');
+		return false;
+	}
 	public function new(canBeScripted:Bool = true) {
 		super();
 		this.canBeScripted = canBeScripted;
@@ -177,7 +227,10 @@ class MusicBeatState extends FlxUIState
 
 		FlxG.switchState(nextState); // just because im too lazy to goto every instance of switchState and change it to a FlxG call
 	}
-
+	public function refresh()
+		{
+		  sort(funkin.CoolUtil.byZIndex, FlxSort.ASCENDING);
+		}
 	public static function resetState(?skipTrans:Bool = false) {
 		if (skipTrans) {
 			FlxTransitionableState.skipNextTransIn = true;
@@ -214,7 +267,16 @@ class MusicBeatState extends FlxUIState
 		#end
 			FlxG.resetState();
 	}
-
+	#if SCRIPTABLE_STATES
+	public function openCustomSubState(name:String, ?scriptVars:Map<String, Dynamic>){
+		var state:HScriptedSubstate = HScriptedSubstate.fromFile(name,scriptVars);
+		openSubState(state);
+	}
+	public static function switchCustomState(name:String, ?scriptVars:Map<String, Dynamic>){
+		var state:HScriptedState = HScriptedState.fromFile(name,scriptVars);
+		MusicBeatState.switchState(state);
+	}
+	#end
 	public static function getState():MusicBeatState
 	{
 		return cast FlxG.state;

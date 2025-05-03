@@ -10,7 +10,7 @@ class FNFGame extends FlxGame
 	public function new(gameWidth = 0, gameHeight = 0, ?initialState:Class<FlxState>, updateFramerate = 60, drawFramerate = 60, skipSplash = false, startFullscreen = false)
 	{
 		super(gameWidth, gameHeight, initialState, updateFramerate, drawFramerate, skipSplash, startFullscreen);
-		_customSoundTray = flixel.system.ui.DefaultFlxSoundTray;
+		_customSoundTray = funkin.objects.FunkinSoundTray;
 	}
 
 	#if SCRIPTABLE_STATES

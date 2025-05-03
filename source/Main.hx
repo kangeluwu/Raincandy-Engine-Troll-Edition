@@ -168,7 +168,32 @@ class Main extends Sprite
 		bread = new Bread();
 		bread.visible = false;
 		addChild(bread);
-
+		Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_DOWN, (e:openfl.events.KeyboardEvent) -> {
+			
+			  if (e.keyCode == flixel.input.keyboard.FlxKey.F5)
+			  {
+				
+					if (FlxG.keys.pressed.SHIFT)
+					{
+						@:privateAccess {
+						try{
+							if (FlxG.game._state != null) FlxG.game._state.destroy();
+							FlxG.game._state = null;
+						}catch(e){
+						Main.print("Error destroying state: ", e);
+						}		
+						
+						FlxG.game._requestedState = new StartupState();
+						FlxG.game.switchState();
+						funkin.states.TitleState.initialized = false;
+					}
+					}else{
+						funkin.states.MusicBeatState.resetState();
+					}
+				
+			  }
+			
+		  });
 		#if CRASH_HANDLER
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(
 			UncaughtErrorEvent.UNCAUGHT_ERROR, 

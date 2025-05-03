@@ -8,11 +8,25 @@ class ColorSwap
 	public var brightness(default, set):Float = 0;
 	public var daAlpha(default, set):Float = 1;
 	public var flash(default, set):Float = 0;
-
+	public var usePixel(default, set):Bool = false;
 	public var flashR(default, set):Float = 1;
 	public var flashG(default, set):Float = 1;
 	public var flashB(default, set):Float = 1;
 	public var flashA(default, set):Float = 1;
+	public var size(default, set):Array<Float> = [FlxG.width/32,FlxG.height/32];
+	private function set_usePixel(value:Bool)
+	{
+			usePixel = value;
+			shader.usePixel.value[0] = value;
+			return value;
+	}
+	private function set_size(value:Array<Float>)
+	{
+			size = value;
+			shader.uBlocksize.value[0] = size[0] * 32;
+			shader.uBlocksize.value[1] = size[1] * 32;
+			return size;
+	}
 
 	private function set_flashR(value:Float)
 	{
@@ -83,6 +97,8 @@ class ColorSwap
 		shader.flashColor.value = [1, 1, 1, 1];
 		shader.daAlpha.value = [1];
 		shader.flash.value = [0];
+		shader.uBlocksize.value = [FlxG.width/32,FlxG.height/32];
+		shader.usePixel.value = [false];
 	}
 }
 
@@ -90,13 +106,15 @@ class ColorSwapShader extends FlxShader
 {
 	@:glFragmentSource('
 		#pragma header
-
+		uniform bool usePixel = false;
 		uniform vec3 uTime;
 		uniform float daAlpha;
 		uniform float flash;
 		uniform vec4 flashColor;
-
+		uniform vec2 uBlocksize;
 		const float offset = 1.0 / 128.0;
+		vec2 fragCoord = openfl_TextureCoordv*openfl_TextureSize;
+		vec2 iResolution = openfl_TextureSize;
 		vec3 normalizeColor(vec3 color)
 		{
 			return vec3(
@@ -160,8 +178,11 @@ class ColorSwapShader extends FlxShader
 
 		void main()
 		{
+			vec2 uv = fragCoord/iResolution.xy;
+			vec2 blocks = uv / uBlocksize;
 			vec4 color = texture2D(bitmap, openfl_TextureCoordv);
-
+			if (usePixel)
+				 color = texture2D(bitmap, floor(openfl_TextureCoordv * uBlocksize) / uBlocksize);
 			vec4 swagColor = vec4(
 				rgb2hsv(
 					vec3(color[0], color[1], color[2])

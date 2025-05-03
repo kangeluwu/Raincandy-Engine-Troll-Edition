@@ -99,7 +99,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			stageScript.set("this", this);
 			stageScript.set("foreground", foreground);
 			stageScript.set("currentPlayState", funkin.states.PlayState.instance);
-
+			stageScript.set("hscriptPath", Paths.getPath('images/stages/$curStage/'));
 			if (buildStage){
 				stageScript.call("onLoad", [this, foreground]);
 				stageBuilt = true;

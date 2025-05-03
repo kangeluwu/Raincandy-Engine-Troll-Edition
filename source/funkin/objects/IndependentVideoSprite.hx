@@ -21,7 +21,7 @@ import hxvlc.util.typeLimit.OneOfThree;
 #else
 import hxvlc.util.OneOfThree;
 #end
-import hxvlc.flixel.FlxVideoSprite as VideoSprite;
+import #if (hxvlc < "1.9.3") hxvlc. #end flixel.FlxVideoSprite as VideoSprite;
 #end
 
 class IndependentVideoSprite extends VideoSprite {
@@ -52,7 +52,19 @@ class IndependentVideoSprite extends VideoSprite {
         // TODO: add pausing when in PlayState
         
 	}
+    public override function destroy():Void
+        {
+            if (FlxG.signals.focusGained.has(_autoResume))
+                FlxG.signals.focusGained.remove(_autoResume);
 
+            if (FlxG.signals.focusLost.has(_autoPause))
+                FlxG.signals.focusLost.remove(_autoPause);
+    
+            
+            super.destroy();
+    
+        }
+    
     // for nightmarevision
     public function addCallback(callbackName:String, callback:Void->Void, once:Bool=false){
 		trace(callbackName);

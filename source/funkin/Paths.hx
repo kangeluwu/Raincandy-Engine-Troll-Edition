@@ -12,7 +12,16 @@ import openfl.display.BitmapData;
 import openfl.utils.AssetType;
 import openfl.utils.Assets;
 import haxe.Json;
-
+import lime.ui.FileDialog;
+import lime.ui.FileDialogType;
+import flash.net.FileReference;
+import flash.events.Event;
+import openfl.events.IOErrorEvent;
+import lime.app.Future;
+import haxe.io.Bytes;
+import haxe.Timer;
+import lime.app.Promise;
+import openfl.system.System;
 using StringTools;
 
 #if sys
@@ -24,6 +33,7 @@ import sys.io.File;
 
 class Paths
 {
+	public static var _file:FileReference;
 	public static var globalContent:Array<String> = [];
 	public static var preLoadContent:Array<String> = [];
 	public static var postLoadContent:Array<String> = [];
@@ -32,7 +42,8 @@ class Paths
 	inline public static var VIDEO_EXT = "mp4";
     public static final HSCRIPT_EXTENSIONS:Array<String> = ["hscript", "hxs", "hx"];
 	public static final LUA_EXTENSIONS:Array<String> = ["lua"];
-    
+	public static final JSON_EXTENSIONS:Array<String> = ["json", "jsonc"];
+	public static final ENCODED_EXTENSIONS:Array<String> = ["hscTon", "hxsTon", "hxTon", "imTon", "OGGton", "ouTon","xmlTon",""];
 	public static final SCRIPT_EXTENSIONS:Array<String> = [
 		"hscript",
 		"hxs",
@@ -43,9 +54,11 @@ class Paths
 		'assets/music/freakyIntro.$SOUND_EXT',
 		'assets/music/freakyMenu.$SOUND_EXT',
 		'assets/music/breakfast.$SOUND_EXT',
+		'assets/music/chartEditorLoop.$SOUND_EXT',
 		'content/global/music/freakyIntro.$SOUND_EXT',
 		'content/global/music/freakyMenu.$SOUND_EXT',
 		'content/global/music/breakfast.$SOUND_EXT',
+		'assets/music/chartEditorLoop.$SOUND_EXT',
 		"assets/images/Garlic-Bread-PNG-Images.png"
 	];
 
@@ -160,6 +173,11 @@ class Paths
 	inline static public function file(file:String, type:AssetType = TEXT, ?library:String)
 	{
 		return getPreloadPath(file);
+	}
+
+	inline static public function dataJson(key:String, ?library:String)
+	{
+		return file('data/$key.json', TEXT, library);
 	}
 
 	inline static public function txt(key:String, ?library:String)
@@ -411,6 +429,53 @@ class Paths
 		#end
 	}
 
+	static public function getAtlas(key:String, ?parentFolder:String = null):FlxAtlasFrames
+		{
+			var imageLoaded = image(key, parentFolder);
+	
+			var myXml:Dynamic = getPath('images/$key.xml');
+			if(Paths.exists(myXml))
+			{
+				#if MODS_ALLOWED
+				return FlxAtlasFrames.fromSparrow(imageLoaded, Paths.getContent(myXml));
+				#else
+				return FlxAtlasFrames.fromSparrow(imageLoaded, file('images/$key.xml', parentFolder));
+				#end
+			}
+			else
+			{
+				var myJson:Dynamic = getPath('images/$key.json');
+				if(Paths.exists(myJson))
+				{
+					#if MODS_ALLOWED
+					return FlxAtlasFrames.fromTexturePackerJson(imageLoaded, (Paths.exists(myJson) ? Paths.getContent(myJson) : myJson));
+					#else
+					return FlxAtlasFrames.fromTexturePackerJson(imageLoaded, file('images/$key.json', parentFolder));
+					#end
+				}
+			}
+			return getPackerAtlas(key, parentFolder);
+		}
+		
+		static public function getMultiAtlas(keys:Array<String>, ?parentFolder:String = null):FlxAtlasFrames
+		{
+			
+			var parentFrames:FlxAtlasFrames = Paths.getAtlas(keys[0].trim());
+			if(keys.length > 1)
+			{
+				var original:FlxAtlasFrames = parentFrames;
+				parentFrames = new FlxAtlasFrames(parentFrames.parent);
+				parentFrames.addAtlas(original, true);
+				for (i in 1...keys.length)
+				{
+					var extraFrames:FlxAtlasFrames = Paths.getAtlas(keys[i].trim(), parentFolder);
+					if(extraFrames != null)
+						parentFrames.addAtlas(extraFrames, true);
+				}
+			}
+			return parentFrames;
+		}
+
 	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
 		#if MODS_ALLOWED
@@ -424,7 +489,7 @@ class Paths
 		#end
 	}
 
-	static function getShaderFragment(name:String):Null<String>{
+	static public function getShaderFragment(name:String):Null<String>{
 		#if MODS_ALLOWED
 		var path = Paths.modsShaderFragment(name);
 		if (Paths.exists(path)) return path;
@@ -433,7 +498,7 @@ class Paths
 		if (Paths.exists(path)) return path;
 		return null;
 	}
-	static function getShaderVertex(name:String):Null<String>{
+	static public function getShaderVertex(name:String):Null<String>{
 		#if MODS_ALLOWED
 		var path = Paths.modsShaderVertex(name);
 		if (Paths.exists(path)) return path;
@@ -507,8 +572,11 @@ class Paths
 			if (!currentTrackedAssets.exists(modKey)){
 				var newGraphic:FlxGraphic = getGraphic(modKey);
 				newGraphic.persist = true;
+				if (!notPush)
+					return newGraphic;
 				currentTrackedAssets.set(modKey, newGraphic);
 			}
+			if (!notPush)
 			if (!localTrackedAssets.contains(modKey))localTrackedAssets.push(modKey);
 			return currentTrackedAssets.get(modKey);
 		}
@@ -523,6 +591,7 @@ class Paths
 				var newGraphic:FlxGraphic = getGraphic(path);
 				newGraphic.persist = true;
 				if (!notPush)
+					return newGraphic;
 				currentTrackedAssets.set(path, newGraphic);
 			}
 			if (!notPush)
@@ -613,6 +682,43 @@ class Paths
 		}
 		
 		return null;
+	}
+
+	public static function askToSave(id:String, data:Dynamic)
+	{
+		_file = new FileReference();
+
+		_file.addEventListener(Event.COMPLETE, onSaveComplete);
+		_file.addEventListener(Event.CANCEL, onSaveCancel);
+		_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		var idSus = haxe.io.Path.withoutDirectory(id);
+		_file.save(data, idSus);//HELLO MOTHER F-
+	}
+
+	static function onSaveComplete(_):Void
+	{
+		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
+		_file.removeEventListener(Event.CANCEL, onSaveCancel);
+		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		_file = null;
+		FlxG.log.notice("Successfully saved LEVEL DATA.");
+	}
+
+	static function onSaveCancel(_):Void
+	{
+		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
+		_file.removeEventListener(Event.CANCEL, onSaveCancel);
+		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		_file = null;
+	}
+
+	static function onSaveError(_):Void
+	{
+		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
+		_file.removeEventListener(Event.CANCEL, onSaveCancel);
+		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		_file = null;
+		FlxG.log.error("Problem saving Level data");
 	}
 
 
@@ -714,7 +820,9 @@ class Paths
 
 					var path = Paths.mods('$folder/metadata.json');
 					var rawJson:Null<String> = Paths.getContent(path);
-		
+					if (rawJson == null){
+						rawJson = createMetaData(folder);
+					}
 					if (rawJson != null && rawJson.length > 0)
 					{
 						var data:Dynamic = Json.parse(rawJson);
@@ -731,7 +839,45 @@ class Paths
 			}
 		}
 	}
-
+	static public function createMetaData(modName:String = ''):Null<String>{
+		if (isDirectory(mods(modName+'/'))){
+			var paths = [];
+			var songss = [];
+			if (isDirectory(mods(modName+'/'+'songs/'))){
+			iterateDirectory(mods(modName+'/'+'songs'), function(path:String){
+				if (isDirectory(mods(modName+'/'+'songs/'+path+'/')))
+				songss.push(path);
+			});
+		}
+			var week = {
+				name:modName+'-week',
+				category:'main',
+				freeplayCategory:modName,
+				unlockCondition:true,
+				songs:songss,
+				directory:'',
+				hideFreeplay:false
+			};
+			var metadata = {
+			weeks:[
+					week
+				],
+				freeplayCategories:[
+					{
+						name: 'autoCreateMeta-'+modName,
+						id: modName
+					}
+				],
+				runsGlobally:true
+			};
+			var data:String = CoolUtil.stringifyJson(metadata);
+			sys.io.File.saveContent(mods(modName+'/metadata.json'), data);
+			sys.io.File.saveContent(mods(modName+'/categoryList.txt'), modName);
+			return data;
+					}
+		return null;
+	}
+	
 	#if PE_MOD_COMPATIBILITY
 	static function getPsychModMetadata(folder:String):ContentMetadata {
 		var packJson:String = Paths.mods('$folder/pack.json');
@@ -796,6 +942,27 @@ class Paths
 		for(mod in getGlobalContent())foldersToCheck.insert(0, Paths.mods('$mod/$dir/'));
 		for(mod in postLoadContent)foldersToCheck.insert(0, Paths.mods('$mod/$dir/'));
 
+		return foldersToCheck;
+		#end
+	}
+	
+	inline static public function getMergeFolders(dir:String = '', ?modsOnly:Bool = false):Array<String>{
+		#if !MODS_ALLOWED
+		return [Paths.getPreloadPath()];
+		
+		#else
+		var foldersToCheck:Array<String> = [
+			Paths.mods(Paths.currentModDirectory + '/'),
+			Paths.mods(),			
+		];
+
+		if(!modsOnly)
+			foldersToCheck.push(Paths.getPreloadPath());
+
+		for(mod in preLoadContent)foldersToCheck.push(Paths.mods('$mod/'));
+		for(mod in getGlobalContent())foldersToCheck.insert(0, Paths.mods('$mod/'));
+		for(mod in postLoadContent)foldersToCheck.insert(0, Paths.mods('$mod/'));
+		trace(foldersToCheck);
 		return foldersToCheck;
 		#end
 	}

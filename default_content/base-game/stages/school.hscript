@@ -6,6 +6,8 @@ function onCreate()
 
     if(game.hudSkin == 'default')
         game.hudSkin = 'pixel';
+
+	PlayState.isPixelStage = true;
 }
 
 function roundTo(num, roundFactor){
@@ -13,9 +15,11 @@ function roundTo(num, roundFactor){
 }
 
 ////
-var bgGirls;
-
+var bgGirls = null;
+var isPissed = true;
 function onLoad(){
+
+
 	var bgSky:BGSprite = new BGSprite('stages/school/weebSky', 0, 0, 0.1, 0.1);
 	add(bgSky);
 	bgSky.antialiasing = false;
@@ -65,16 +69,18 @@ function onLoad(){
 	bgStreet.updateHitbox();
 	bgTrees.updateHitbox();
 
-	/*
-	if(!ClientPrefs.lowQuality) {
-		bgGirls = new BackgroundGirls(-100, 190);
-		bgGirls.scrollFactor.set(0.9, 0.9);
 
-		bgGirls.setGraphicSize(Std.int(bgGirls.width * daPixelZoom));
+	if(!ClientPrefs.lowQuality) {
+		bgGirls = new FlxSprite(-100, 190);
+		bgGirls.frames = Paths.getSparrowAtlas('stages/school/bgFreaks');
+		bgGirls.scrollFactor.set(0.9, 0.9);
+		checkPissed();
+		bgGirls.setGraphicSize(Std.int(bgGirls.width * 6));
 		bgGirls.updateHitbox();
 		add(bgGirls);
+		bgGirls.antialiasing = false;
 	}
-	*/
+	
 	
 	for (spr in this.members){
 		spr.setPosition(
@@ -82,5 +88,52 @@ function onLoad(){
 			roundTo(spr.y, 6)
 		);
 	}
+
 }
 
+function onStartCountdown(){
+	if (!game.skipCountdown){
+		if (isPissed)
+	FlxG.sound.play(Paths.sound('ANGRY_TEXT_BOX'));
+	}
+}
+function checkPissed(){
+	if (PlayState.SONG != null && (PlayState.SONG.song.toLowerCase() == 'roses' || (Reflect.hasField(PlayState.SONG,'isMoody') && Reflect.field(PlayState.SONG,'isMoody')))){
+			isPissed = false;
+			
+		}else{
+			isPissed = true;
+		}
+		swapDanceType();
+}
+function swapDanceType()
+	{
+		isPissed = !isPissed;
+		if (bgGirls != null){
+		if(!isPissed) { //Gets unpissed
+			bgGirls.animation.addByIndices('danceLeft', 'BG girls group', CoolUtil.numberArray(14), "", 24, false);
+			bgGirls.animation.addByIndices('danceRight', 'BG girls group', CoolUtil.numberArray(30, 15), "", 24, false);
+		} else { //Pisses
+			bgGirls.animation.addByIndices('danceLeft', 'BG fangirls dissuaded', CoolUtil.numberArray(14), "", 24, false);
+			bgGirls.animation.addByIndices('danceRight', 'BG fangirls dissuaded', CoolUtil.numberArray(30, 15), "", 24, false);
+		}
+		danceGirls();
+	}
+	}
+var danceDir = false;
+function danceGirls(){
+	danceDir = !danceDir;
+	if(bgGirls!=null)
+	bgGirls.animation.play(danceDir ? 'danceRight' : 'danceLeft', true);
+}
+
+onCountdownTick = danceGirls;
+
+function onBeatHit(){
+	if (bgGirls != null){
+	danceGirls();
+	}
+}
+function onDestroy(){
+	PlayState.isPixelStage = false;
+}

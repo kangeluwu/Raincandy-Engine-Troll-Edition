@@ -108,14 +108,9 @@ class PauseSubState extends MusicBeatSubstate
 			"Leave Charting Mode" => () ->
 			{
 				var songName:String = PlayState.SONG.song;
-				var jsonName:String;
+				var jsonName:String = songName; 
 
-				if (PlayState.difficultyName != "")
-					jsonName = songName + '-' + PlayState.difficultyName;
-				else
-					jsonName = songName; 
-
-				PlayState.SONG = funkin.data.Song.loadFromJson(jsonName, songName);
+				PlayState.SONG = funkin.data.Song.loadFromJson(jsonName, PlayState.difficultyName, songName);
 				PlayState.chartingMode = false;
 				PlayState.instance.restartSong();
 			},

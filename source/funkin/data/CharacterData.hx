@@ -118,8 +118,12 @@ class CharacterData {
 	**/
 	public static function getImageFileType(path:String):String
 	{
-		if (Paths.fileExists('images/$path/Animation.json', TEXT))
+		if (Paths.fileExists('images/$path/Animation.json', TEXT)){
+			if (Paths.fileExists('images/$path/spritemap1.json', TEXT))
+			return "textureNEW";
+			else
 			return "texture";
+		}
 		else if (Paths.fileExists('images/$path.txt', TEXT))
 			return "packer";
 		else

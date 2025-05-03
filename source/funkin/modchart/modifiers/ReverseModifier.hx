@@ -7,6 +7,10 @@ import math.*;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import funkin.objects.playfields.NoteField;
+import flixel.math.FlxPoint;
+import flixel.math.FlxMath;
+import math.*;
+import flixel.math.FlxAngle;
 import funkin.objects.NoteObject.ObjectType;
 class ReverseModifier extends NoteModifier 
 {
@@ -71,25 +75,45 @@ class ReverseModifier extends NoteModifier
 		shift = lerp(shift, (FlxG.height * 0.5), centerPercent);
 		
 		pos.y = shift + lerp(visualDiff, -visualDiff, reversePerc);
-
+		
 		if ((obj.objType == NOTE))
 		{
+			var angleDir = (getSubmodValue("direction" + Std.string(data), player) + getSubmodValue("direction", player))* Math.PI / 180;
 			var n:Note = cast obj;
+			var x:Float = Note.halfWidth + field.field.getBaseX(data);
+			pos.x = x + Math.cos(angleDir) * lerp(visualDiff, -visualDiff, reversePerc);
+			pos.y = shift + Math.sin(angleDir) * lerp(visualDiff, -visualDiff, reversePerc);
 			pos.y += n.typeOffsetY;
 		}
-
+		pos.x += obj.offsetX;
         pos.y += obj.offsetY;
 
 		return pos;
 	}
 
     override function getSubmods(){
-        var subMods:Array<String> = ["cross", "split", "alternate", "centered", "unboundedReverse"];
+        var subMods:Array<String> = ["cross", "split", "alternate", "centered", "unboundedReverse", "direction"];
 
-		for (i in 0...4){
+		for (i in 0...PlayState.keyCount){
             subMods.push('reverse${i}');
+			subMods.push('direction${i}');
         }
 
         return subMods;
     }
+
+	override function modifyVert(beat:Float, vert:Vector3, idx:Int, obj:NoteObject, pos:Vector3, player:Int, data:Int, field:NoteField):Vector3
+		{
+			var angle:Float = getSubmodValue("direction" + Std.string(data), player) + getSubmodValue("direction", player) - 90;
+	
+			if((obj.objType == NOTE)){
+				var note:Note = cast obj;
+			if(note.isSustainNote){
+			var radians = FlxAngle.TO_RAD;
+	
+			vert = VectorHelpers.rotateV3(vert, radians * angle, radians * angle, radians * 0);
+				}
+			}
+			return vert;
+		}
 }

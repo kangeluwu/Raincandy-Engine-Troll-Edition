@@ -1,3 +1,8 @@
 package funkin.states;
 
-typedef StoryMenuState = funkin.states.SongSelectState;
+class StoryMenuState extends MusicBeatState{
+    override function create(){
+        MusicBeatState.switchState(new funkin.states.SongSelectState());
+        super.create();
+    }
+}

@@ -95,13 +95,16 @@ class OptionsSubstate extends MusicBeatSubstate
 					"downScroll",
 					"midScroll",
 					"noteSplashes",
+					"noteHoldSplashes",
 					"noteSkin",
-					"customizeColours"
+					"customizeColours",
+					"customizeSplashes"
 				]
 			],
 			[
 				"hud",
 				[
+					"rhythmMode", 
 					"timeBarType", 
 					"hudOpacity", 
 					"hpOpacity", 
@@ -358,6 +361,9 @@ class OptionsSubstate extends MusicBeatSubstate
 					this.persistentDraw = false;
 					this.subStateClosed.addOnce((_) -> this.persistentDraw = true);
 				}
+			case 'customizeSplashes':
+				// TODO: check the note colours once you exit to see if any changed
+				openSubState(new NoteSplashDebugSubState());
 			case 'customizeColours':
 				// TODO: check the note colours once you exit to see if any changed
 				openSubState(ClientPrefs.noteSkin == "Quants" ? new QuantNotesSubState() : new NotesSubState());
@@ -478,6 +484,8 @@ class OptionsSubstate extends MusicBeatSubstate
 	{
 		//var startTime = Sys.cpuTime();
 		// ClientPrefs.load();
+		ClientPrefs.reloadHud();
+		ClientPrefs.reloadHud(actualOptions);
 		persistentDraw = true;
 		persistentUpdate = true;
 

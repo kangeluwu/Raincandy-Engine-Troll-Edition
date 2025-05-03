@@ -6,16 +6,23 @@ import funkin.states.SongSelectState.SongChartSelec;
 import funkin.data.Song;
 import funkin.data.Song.SongMetadata;
 import funkin.data.WeekData;
-
+import funkin.states.FreeplayCategoryState;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.text.FlxText;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
+@:injectMoreFunctions([
+	"onSelectSong",
+	"onAccept",
+	"refreshScore",
+	"changeDifficulty",
+	"positionHighscore"
+])
 class FreeplayState extends MusicBeatState
 {
 	public static var comingFromPlayState:Bool = false;
-
+	public static var lastWeeks:Array<WeekMetadata> = [];
 	var menu = new AlphabetMenu();
 	var songMeta:Array<SongMetadata> = [];
 
@@ -38,20 +45,31 @@ class FreeplayState extends MusicBeatState
 
 	var selectedSongData:SongMetadata;
 	var selectedSongCharts:Array<String>;
-	
+	var instrumentals:Array<FlxSound>;
 	var hintText:FlxText;
-    
+    var weeks:Array<WeekMetadata>=[];
+	public function new(?week:Array<WeekMetadata> = null){
+		if (week == null || week.length <= 0){
+			if (lastWeeks == null || lastWeeks.length <= 0)
+			weeks = WeekData.reloadWeekFiles(true);
+			else
+			weeks = lastWeeks;
+		}else
+		weeks = week;
+		trace(weeks);
+		super();
+	}
 	override public function create()
 	{
 		#if DISCORD_ALLOWED
 		funkin.api.Discord.DiscordClient.changePresence('In the menus');
 		#end
-		trace('i');
-		for (week in WeekData.reloadWeekFiles(true))
+
+		for (week in weeks)
 		{
 			Paths.currentModDirectory = week.directory;
 
-			if (week.songs == null)
+			if (week.songs == null && week.songs.length <= 0)
 				continue;
 
 			for (songName in week.songs){
@@ -67,16 +85,16 @@ class FreeplayState extends MusicBeatState
 				menu.addTextOption(songName).ID = songMeta.length;
 				songMeta.push(metadata);
 			}
+			
+
 		}
-		trace('ii');
+		
 		////
 		add(bgGrp);
-		trace('iii');
 		add(menu);
 		menu.controls = controls;
 		menu.callbacks.onSelect = (selectedIdx) -> onSelectSong(songMeta[selectedIdx]);
 		menu.callbacks.onAccept = onAccept;
-		trace('iiii');
 		////
 		var hintBG = CoolUtil.blankSprite(FlxG.width, 26, 0xFF999999);
 		hintBG.y = FlxG.height - 26;
@@ -87,7 +105,6 @@ class FreeplayState extends MusicBeatState
 		hintText.setFormat(Paths.font("vcr.ttf"), 16, 0xFFFFFFFF, RIGHT);
 		hintText.scrollFactor.set();
 		add(hintText);
-		trace('iiiii');
 		////
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, 'PERSONAL BEST: 0', 32);
 		scoreText.setFormat(Paths.font("vcr.ttf"), 32, 0xFFFFFFFF, RIGHT);
@@ -107,7 +124,6 @@ class FreeplayState extends MusicBeatState
 		////
 		menu.curSelected = lastSelected;
 		if (comingFromPlayState) playSelectedSongMusic();
-		trace('iiiiii');
 		super.create();
 		comingFromPlayState = false;
 	}
@@ -145,11 +161,18 @@ class FreeplayState extends MusicBeatState
 			songLoaded = selectedSong;
 			Song.loadSong(selectedSongData, curDiffStr, curDiffIdx);
 			
-			if (PlayState.SONG != null){
-				var instAsset = Paths.inst(PlayState.SONG.song); 
-				FlxG.sound.playMusic(instAsset);
-			}
 		}
+	
+			
+				if (selectedSongCharts.length > 0 && PlayState.SONG != null && Paths.exists(Paths.returnSoundPath('songs','${Paths.formatToSongPath(selectedSongData.songName)}/'+PlayState.SONG.tracks.inst[0]))){
+				var instAsset = Paths.track(selectedSongData.songName,PlayState.SONG.tracks.inst[0]); 
+				trace(PlayState.SONG.tracks);
+				FlxG.sound.playMusic(instAsset);	
+				}
+		    else if (Paths.exists(Paths.returnSoundPath('songs','${Paths.formatToSongPath(selectedSongData.songName)}/Inst'))){
+			var instAsset = Paths.inst(selectedSongData.songName); 
+			FlxG.sound.playMusic(instAsset);
+			}
 	}
 
 	// disable menu class controls for one update cycle Dx 
@@ -180,7 +203,10 @@ class FreeplayState extends MusicBeatState
 		}else if (controls.BACK){
 			menu.controls = null;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			MusicBeatState.switchState(new funkin.states.MainMenuState());	
+			if (FreeplayCategoryState.categoriesAmount <= 1)
+			MusicBeatState.switchState(new MainMenuState());	
+				else
+			MusicBeatState.switchState(new FreeplayCategoryState());	
 			
 		}else if (controls.RESET){
 			var songName:String = selectedSongData.songName;
@@ -336,7 +362,7 @@ class FreeplayState extends MusicBeatState
 	override public function destroy()
 	{
 		lastSelected = menu.curSelected;
-		
+		lastWeeks = weeks;
 		super.destroy();
 	}
 }

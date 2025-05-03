@@ -90,7 +90,7 @@ class ModManager {
 		registerAux("xmod");
 		registerAux("cmod");
 		registerAux("movePastReceptors");
-		for (i in 0...4){
+		for (i in 0...PlayState.keyCount){
 			registerAux("xmod" + i);
 			registerAux("cmod" + i);
 			registerAux("noteSpawnTime" + i);
@@ -108,9 +108,9 @@ class ModManager {
 			setValue(modName, 0, mN);
         } */
 		
-		for (i in 0...4)
+		for (i in 0...PlayState.keyCount)
 			setValue("noteSpawnTime" + i, 0, mN);
-		
+		setValue("direction", 90, mN);
 		setValue("noteSpawnTime", 0, mN); // when this is <= 0, it defaults to field.spawnTime
 		setValue("drawDistance", FlxG.height * 1.1, mN); // MAY NOT REPRESENT ACTUAL DRAWDISTANCE: drawDistance is modified by the notefields aswell
 		// so whAT you set drawDistance to might be lower or higher than expected because of the draw distance mult. setting
@@ -120,7 +120,7 @@ class ModManager {
 		setValue("scale", 1, mN);
 		setValue("scaleX", 1, mN);
 		setValue("scaleY", 1, mN);
-		for (i in 0...4){
+		for (i in 0...PlayState.keyCount){
 			setValue('cmod$i', -1, mN);
 			setValue('xmod$i', 1, mN);
 			setValue('scale${i}', 1, mN);
@@ -448,7 +448,17 @@ class ModManager {
  	public var playerAmount:Int = 2;
 	public var playerOOBIsCentered:Bool = true; // Player Out of Bounds is centered
 	public var vPadding:Float = 45;
+	public function setActive(amount:Int = 2){
+		activeMods = [];
+		touchedMods  = [];
+		for (i in 0...amount){
+			var lol:Array<String> = [];
+			activeMods.push(lol);
 
+			var lol2:Array<String> = [];
+			activeMods.push(lol2);
+		}
+	}
 	public function getBaseX(direction:Int, player:Float, receptorAmount:Int = 4):Float
 	{
 		if (playerOOBIsCentered && (player >= playerAmount || player < 0))

@@ -1,0 +1,88 @@
+if (PlayState.rhythmMode){
+var blacks = [];
+var scoreTxt;
+function onCreate(){
+
+}
+function onStartCountdown(){
+    game.hud.zPos = 114514;
+    game.hud.healthBar.angle = 90;
+    game.hud.healthBarBG.angle = 90;
+    game.hud.scoreTxt.visible = game.hud.iconP1.visible =  game.hud.iconP2.visible = false;
+    game.hud.healthBar.x += 250;
+    game.hud.healthBar.screenCenter(FlxAxes.Y);
+    game.playfields.zPos = 114513;
+    game.refresh();
+    trace(game.hud.zPos);
+
+    
+}
+function onSongStart(){
+
+    
+}
+function onCountdownSpritePost(sprite, curPos, timer){
+    sprite.zPos = 114516;
+    game.refresh();
+}
+function onCountdownTick(curPos, timer){
+    if (game.curCountdown.sound != null){
+        game.curCountdown.sound.volume = 0;
+    }
+}
+function stepHit(step){
+
+}
+function postReceptorGeneration(){
+    for (field in game.playfields.members){
+    for (i in 0...PlayState.keyCount){
+        var blackk = [];
+        var black = new NoteObject().makeGraphic(field.strumNotes[i].width,FlxG.height*2,FlxColor.BLACK);
+        black.handleRendering = false;
+        black.column = i;
+        black.alpha = 0.8;
+        
+
+        add(black);
+        blacks.push(black);
+        black.cameras = [game.camRhythmHUD];
+    }
+}
+
+}
+function onModifierRegisterPost(){
+    if (!game.midScroll) {
+        var off:Float = Math.min(FlxG.width, 1280) / 4;
+           var opp:Int = game.playOpponent ? 0 : 1;
+           
+           var halfKeys:Int = Math.floor(PlayState.keyCount / 2);
+           if (PlayState.keyCount % 2 != 0) // middle receptor dissappears, if there is one
+               modManager.setValue('alpha'+(halfKeys + 1)+'', 1.0, opp);
+           
+           for (i in 0...halfKeys)
+               modManager.setValue('transform'+i+'X', -off, opp);
+           for (i in PlayState.keyCount-halfKeys...PlayState.keyCount)
+               modManager.setValue('transform'+i+'X', off, opp);
+
+           modManager.setValue("alpha", 1, opp);
+           modManager.setValue("opponentSwap", 0.5);
+       }
+}
+function notefieldPreDraw(field){
+    for (obj in blacks)
+		{
+			if (obj == null || !obj.alive || !obj.visible)
+				continue;
+			var pos = modManager.getPos(0, 0, field.curDecBeat, obj.column, field.modNumber, obj, field, field.perspectiveArrDontUse);
+			var object = field.drawNote(obj, pos);
+			if (object == null)
+				continue;
+			object.zIndex -= 4;
+			lookupMap.set(obj, object);
+			drawQueue.push(object);
+		}
+}
+}else{
+  
+  
+}

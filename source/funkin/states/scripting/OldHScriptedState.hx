@@ -24,7 +24,6 @@ class OldHScriptedState extends MusicBeatState
 			this.stateScript = script;
 
 		// some shortcuts
-		stateScript.set("this", this);
 		stateScript.set("add", this.add);
 		stateScript.set("remove", this.remove);
 		stateScript.set("insert", this.insert);

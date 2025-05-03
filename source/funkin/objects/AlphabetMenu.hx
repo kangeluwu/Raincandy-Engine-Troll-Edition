@@ -17,7 +17,7 @@ class AlphabetMenu extends FlxTypedGroup<Alphabet>
 	public var curItem:Null<Alphabet> = null;
 	public var controls:Null<Controls>;
 	public var inputsActive:Bool = true;
-	
+	public var playSFX:Bool = true;
 	private var itemCallbacks:Map<Alphabet, OptionCallbacks> = [];
 	/** (`Int`, `Alphabet`) -> `Void` **/
 	public final callbacks:OptionCallbacks = {}
@@ -64,9 +64,10 @@ class AlphabetMenu extends FlxTypedGroup<Alphabet>
 				updateItemPos(item, i - value);
 		}
 
-		if (value != null && value != curSelected)
+		if (value != null && value != curSelected){
+			if (playSFX)
 			FlxG.sound.play(Paths.sound("scrollMenu"), 0.4);
-
+		}
 		return curSelected = value;
 	}
 

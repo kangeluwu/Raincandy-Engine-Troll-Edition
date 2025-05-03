@@ -3,6 +3,7 @@
 		{
 			"name": "Example",
 			"category": "main",
+			"freeplayCategory": "exam",
 			"unlockCondition": true,
 			"songs": ["Test"]
 		}
@@ -11,6 +12,12 @@
 		{
 			"name": "Test",
 			"category": "main"
+		}
+	],
+	"freeplayCategories": [
+		{
+			"name": "Example Categorie",
+			"id": "exam"
 		}
 	],
 	"titleStages": [

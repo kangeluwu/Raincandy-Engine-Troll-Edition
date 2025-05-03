@@ -14,8 +14,11 @@ import openfl.geom.ColorTransform;
 using flixel.util.FlxColorTransformUtil;
 using StringTools;
 
-class Character extends FlxSprite
+class Character extends funkin.objects.FlxFilteredSprite
 {
+	/**The character posType**/
+	public var posType:String = 'none';
+
     /**The next beat the character will dance on**/
     public var nextDanceBeat:Float = -5;
 
@@ -93,6 +96,10 @@ class Character extends FlxSprite
 	
 	/**How many steps a character should hold their sing animation for**/
 	public var singDuration:Float = 4;
+
+	/**Should character sing or nah**/
+	public var canSing:Bool = true;
+
 
 	/**String to be appended to idle animation names. For example, if this is -alt, then the animation used for idling will be idle-alt or danceLeft-alt/danceRight-alt**/
 	public var idleSuffix:String = '';
@@ -183,8 +190,8 @@ class Character extends FlxSprite
 		switch (getImageFileType(imageFile))
 		{
 			case "texture":	frames = AtlasFrameMaker.construct(imageFile);
-			case "packer":	frames = Paths.getPackerAtlas(imageFile);
-			case "sparrow":	frames = Paths.getSparrowAtlas(imageFile);
+	//		case "textureNEW":	
+			case "packer" | "sparrow":	frames = Paths.getMultiAtlas(json.image.split(','));
 		}
 
 		////
@@ -270,12 +277,13 @@ class Character extends FlxSprite
 		xFacing = isPlayer ? -1 : 1;
 		idleWhenHold = !isPlayer;
 		controlled = isPlayer;
-
+		posType = (curCharacter == 'gf') ? 'gf' : 'none';
 		switch (curCharacter)
 		{
 			//case 'your character name in case you want to hardcode them instead':
 
 			default:
+			
 				var json = getCharacterFile(curCharacter);
 
 				if (json == null){
@@ -514,7 +522,7 @@ class Character extends FlxSprite
 		}
 
 		////
-		if (curCharacter.startsWith('gf'))
+		if (posType == 'gf')
 		{
 			if (AnimName == 'singLEFT')
 				danced = true;
@@ -537,7 +545,7 @@ class Character extends FlxSprite
 		danceIdle = (animation.getByName('danceLeft' + idleSuffix) != null && animation.getByName('danceRight' + idleSuffix) != null);
 
         if(danceIdle)
-            idleSequence = ["danceLeft" + idleSuffix, "danceRight" + idleSuffix];
+            idleSequence = ["danceLeft", "danceRight"];//BRO
         
 		if(settingCharacterUp)
 		{
