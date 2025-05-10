@@ -6,7 +6,7 @@ import funkin.scripts.FunkinHScript;
 #if !macro
 import math.Vector3;
 import funkin.objects.shaders.ColorSwap;
-
+import flixel.util.FlxColor;
 using StringTools;
 #end
 
@@ -110,8 +110,7 @@ class StrumNote extends NoteObject
 	}
 
 	public function new(x:Float, y:Float, leColumn:Int, ?field:PlayField = null, ?hudSkin:String = 'default') {
-		colorSwap = new ColorSwap();
-		shader = colorSwap.shader;
+
         this.field = field;
 		super(x, y);
 		objType = STRUM;
@@ -120,6 +119,11 @@ class StrumNote extends NoteObject
         noteMod = hudSkin;
 
 		scrollFactor.set();
+		colorSwap = defaultRGB();
+		shader = colorSwap.shader;
+		colorSwap.r = 0xFFFF0000;
+		colorSwap.g = 0xFF00FF00;
+		colorSwap.b = 0xFF0000FF;
 	}
 
 	// stupid
@@ -188,12 +192,18 @@ class StrumNote extends NoteObject
 		updateZIndex();
 
 		if (animation.curAnim == null || animation.curAnim.name == 'static') {
+			colorSwap.r = 0xFFFF0000;
+			colorSwap.g = 0xFF00FF00;
+			colorSwap.b = 0xFF0000FF;
 			colorSwap.hue = 0;
 			colorSwap.saturation = 0;
 			colorSwap.brightness = 0;
 		} 
 		else if (note != null) {
 			// ok now the quants should b fine lol
+			colorSwap.r = note.colorSwap.r;
+			colorSwap.g = note.colorSwap.g;
+			colorSwap.b = note.colorSwap.b;
 			colorSwap.hue = note.colorSwap.hue;
 			colorSwap.saturation = note.colorSwap.saturation;
 			colorSwap.brightness = note.colorSwap.brightness;
@@ -202,11 +212,19 @@ class StrumNote extends NoteObject
 			colorSwap.hue = ClientPrefs.arrowHSV[column % 4][0] / 360;
 			colorSwap.saturation = ClientPrefs.arrowHSV[column % 4][1] / 100;
 			colorSwap.brightness = ClientPrefs.arrowHSV[column % 4][2] / 100;
+			var arr:Array<FlxColor> = ClientPrefs.arrowRGB[column % 4];
+			colorSwap.r = arr[0];
+			colorSwap.g = arr[1];
+			colorSwap.b = arr[2];
 		}
 		else {
 			colorSwap.hue =  0;
 			colorSwap.saturation = 0;
 			colorSwap.brightness = 0;
+			colorSwap.r = 0xFFFF0000;
+			colorSwap.g = 0xFF00FF00;
+			colorSwap.b = 0xFF0000FF;
 		}
+		
 	}
 }

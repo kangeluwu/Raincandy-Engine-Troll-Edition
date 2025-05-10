@@ -8,8 +8,17 @@ import math.Vector3;
 import funkin.scripts.*;
 import funkin.objects.playfields.*;
 import funkin.objects.shaders.ColorSwap;
-
+import flixel.util.FlxColor;
 using StringTools;
+
+typedef NoteSplashData = {
+	disabled:Bool,
+	texture:String,
+	useGlobalShader:Bool, //breaks r/g/b but makes it copy default colors for your custom note
+	useRGBShader:Bool,
+	antialiasing:Bool,
+	a:Float
+}
 
 typedef EventNote = {
 	strumTime:Float,
@@ -59,9 +68,9 @@ typedef StrumData ={
 }
 class Note extends NoteObject
 {
+
 	public var holdGlow:Bool = true; // Whether holds should "glow" / increase in alpha when held
 	public var baseAlpha:Float = 1;
-
 	public static var spriteScale:Float = 0.7;
 	public static var swagWidth(default, set):Float = 160 * spriteScale;
 	public static var halfWidth(default, null):Float = swagWidth * 0.5;
@@ -366,7 +375,7 @@ class Note extends NoteObject
 	public var typeOffsetY:Float = 0;
 	public var typeOffsetAngle:Float = 0;
 	public var multSpeed:Float = 1.0;
-
+	public var _lastColShader:ColorSwap = null;
 	// do not tuch
 	public var baseScaleX:Float = 1;
 	public var baseScaleY:Float = 1;
@@ -450,6 +459,31 @@ class Note extends NoteObject
 			genScript.executeFunc("onUpdateColours", [this], this);
 		}
 	}
+	public static var globalRgbShaders:Array<ColorSwap> = [];
+	public static function initializeGlobalRGBShader(noteData:Int,isPixel:Bool)
+		{
+			if(globalRgbShaders[noteData] == null)
+			{
+				var newRGB:ColorSwap = new ColorSwap();
+				var arr:Array<FlxColor> = (!isPixel) ? ClientPrefs.arrowRGB[noteData] : ClientPrefs.arrowRGBPixel[noteData];
+				
+				if (arr != null && noteData > -1 && noteData <= arr.length)
+				{
+					newRGB.r = arr[0];
+					newRGB.g = arr[1];
+					newRGB.b = arr[2];
+				}
+				else
+				{
+					newRGB.r = 0xFFFF0000;
+					newRGB.g = 0xFF00FF00;
+					newRGB.b = 0xFF0000FF;
+				}
+				
+				globalRgbShaders[noteData] = newRGB;
+			}
+			return globalRgbShaders[noteData];
+		}
 
     private function set_noteMod(value:String):String
     {
@@ -458,13 +492,15 @@ class Note extends NoteObject
 
         updateColours();
 
-		colorSwap = new ColorSwap();
-		shader = colorSwap.shader;
-
+		colorSwap = defaultRGB();
 		// just to make sure they arent 0, 0, 0
 		colorSwap.hue += 0.0127;
 		colorSwap.saturation += 0.0127;
 		colorSwap.brightness += 0.0127;
+		shader = colorSwap.shader;
+
+
+
 		var hue = colorSwap.hue;
 		var sat = colorSwap.saturation;
 		var brt = colorSwap.brightness;
@@ -528,7 +564,7 @@ class Note extends NoteObject
 			var col:String = colArray[column % colArray.length];
 			animation.play(col + 'Scroll');
         }
-
+		_lastColShader = colorSwap;
         return noteMod = value;
     }
 

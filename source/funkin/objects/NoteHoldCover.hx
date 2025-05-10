@@ -11,6 +11,8 @@ using StringTools;
 import flixel.addons.effects.FlxSkewedSprite;
 import funkin.objects.shaders.ColorSwap;
 import funkin.scripts.FunkinHScript;
+import flixel.util.FlxColor;
+import funkin.objects.Note;
 class NoteHoldCover extends NoteObject
 {
 	//public var names:Array<String> = ['Purple','Blue','Green','Red'];
@@ -89,7 +91,7 @@ class NoteHoldCover extends NoteObject
 
 		  visible = false;
 		 // antialiasing = ClientPrefs.globalAntialiasing;
-		 colorSwap = new ColorSwap();
+		 colorSwap = defaultRGB();
 		 shader = colorSwap.shader;
 
 		}
@@ -101,7 +103,7 @@ class NoteHoldCover extends NoteObject
             return funkin.scripts.Globals.Function_Continue;
 
     }
-	public function setHoldPos(x:Float, y:Float, column:Int = 0, hueColor:Float = 0, satColor:Float = 0, brtColor:Float = 0){
+	public function setHoldPos(x:Float, y:Float, column:Int = 0, hueColor:Float = 0, satColor:Float = 0, brtColor:Float = 0,note:Note){
 		//sprTracker = daNote;
 
 
@@ -113,6 +115,20 @@ class NoteHoldCover extends NoteObject
 			colorSwap.hue = hueColor;
 			colorSwap.saturation = satColor;
 			colorSwap.brightness = brtColor;
+			if (note != null){
+				colorSwap.r = note.colorSwap.r;
+				colorSwap.g = note.colorSwap.g;
+				colorSwap.b = note.colorSwap.b;
+			}else{
+				var arr:Array<FlxColor> = ClientPrefs.arrowRGB[column % PlayState.keyCount];
+				if (arr != null && column > -1 && column <= arr.length)
+					{
+				
+				colorSwap.r = arr[0];
+				colorSwap.g = arr[1];
+				colorSwap.b = arr[2];
+					}
+			}
 			if (genScript != null)
 				{
 					genScript.executeFunc("onUpdateColours", [this], this);

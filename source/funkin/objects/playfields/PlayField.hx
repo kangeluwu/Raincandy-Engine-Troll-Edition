@@ -357,7 +357,7 @@ class PlayField extends FlxTypedGroup<FlxBasic>
 			babyArrow.postAddedToGroup();
 
 			var fuckerNoteCover = new NoteHoldCover(babyArrow.x,babyArrow.y,i, (FlxG.state == PlayState.instance) ? PlayState.instance.hudSkin : 'default');
-			fuckerNoteCover.setHoldPos(babyArrow.x,babyArrow.y,i,0,0,0);
+			fuckerNoteCover.setHoldPos(babyArrow.x,babyArrow.y,i,0,0,0,null);
 			fuckerNoteCover.handleRendering = false;
 			grpNoteHoldSplashes.add(fuckerNoteCover);
 		}

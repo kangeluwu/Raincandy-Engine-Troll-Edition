@@ -29,7 +29,8 @@ class Alphabet extends FlxSpriteGroup
 
 	var _finalText:String = "";
 	var yMulti:Float = 1;
-
+	var scaleX(default, set):Float = 1;
+	var scaleY(default, set):Float = 1;
 	// custom shit
 	// amp, backslash, question mark, apostrophy, comma, angry faic, period
 	var lastSprite:AlphaCharacter;
@@ -44,6 +45,61 @@ class Alphabet extends FlxSpriteGroup
 	public var typed:Bool = false;
 
 	public var typingSpeed:Float = 0.05;
+	public function setScale(newX:Float, newY:Null<Float> = null)
+		{
+			var lastX:Float = scale.x;
+			var lastY:Float = scale.y;
+			if(newY == null) newY = newX;
+			@:bypassAccessor
+				scaleX = newX;
+			@:bypassAccessor
+				scaleY = newY;
+	
+			scale.x = newX;
+			scale.y = newY;
+			softReloadLetters(newX / lastX, newY / lastY);
+		}
+	private function set_scaleX(value:Float)
+		{
+			if (value == scaleX) 
+				return value;
+	
+			var ratio:Float = value / scale.x;
+			scale.x = value;
+			scaleX = value;
+			softReloadLetters(ratio, 1);
+			return value;
+		}
+	
+		private function set_scaleY(value:Float)
+		{
+			if (value == scaleY) 
+				return value;
+	
+			var ratio:Float = value / scale.y;
+			scale.y = value;
+			scaleY = value;
+			softReloadLetters(1, ratio);
+			return value;
+		}
+	
+		public function softReloadLetters(ratioX:Float = 1, ratioY:Null<Float> = null)
+		{
+			if(ratioY == null) 
+				ratioY = ratioX;
+	
+			forEach(function (sprite:FlxSprite)
+			{
+				if (sprite != null)
+				{
+					sprite.x = (sprite.x - x) * ratioX + x;
+					sprite.y = (sprite.y - y) * ratioY + y;
+					sprite.scale.x = scaleX;
+					sprite.scale.y = scaleY;
+				}
+			});
+		}
+
 	public function new(x:Float, y:Float, text:String = "", ?bold:Bool = false, typed:Bool = false, ?typingSpeed:Float = 0.05, ?textSize:Float = 1)
 	{
 		super(x, y);

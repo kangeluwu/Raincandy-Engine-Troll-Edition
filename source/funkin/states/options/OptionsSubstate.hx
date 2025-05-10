@@ -98,7 +98,8 @@ class OptionsSubstate extends MusicBeatSubstate
 					"noteHoldSplashes",
 					"noteSkin",
 					"customizeColours",
-					"customizeSplashes"
+					"customizeSplashes",
+					"customizeColoursRGB"
 				]
 			],
 			[
@@ -364,6 +365,9 @@ class OptionsSubstate extends MusicBeatSubstate
 			case 'customizeSplashes':
 				// TODO: check the note colours once you exit to see if any changed
 				openSubState(new NoteSplashDebugSubState());
+			case 'customizeColoursRGB':
+				// TODO: check the note colours once you exit to see if any changed
+				openSubState(new NotesColorSubState());
 			case 'customizeColours':
 				// TODO: check the note colours once you exit to see if any changed
 				openSubState(ClientPrefs.noteSkin == "Quants" ? new QuantNotesSubState() : new NotesSubState());

@@ -2,6 +2,7 @@ package funkin.objects;
 
 import flixel.util.FlxDestroyUtil;
 import flixel.math.FlxPoint;
+import flixel.util.FlxColor;
 import funkin.objects.shaders.ColorSwap;
 enum abstract ObjectType(#if cpp cpp.UInt8 #else Int #end)
 {
@@ -41,6 +42,26 @@ class NoteObject extends FlxSprite {
 		super(x, y);
 	}
 
+	public function defaultRGB()
+		{
+		var shader = new ColorSwap();
+		
+		var arr:Array<FlxColor> = ClientPrefs.arrowRGB[column];
+
+		if (arr != null && column > -1 && column <= arr.length)
+		{
+			shader.r = arr[0];
+			shader.g = arr[1];
+			shader.b = arr[2];
+		}
+		else
+		{
+			shader.r = 0xFFFF0000;
+			shader.g = 0xFF00FF00;
+			shader.b = 0xFF0000FF;
+		}
+		return shader;
+		}
 
 	override function destroy()
 	{

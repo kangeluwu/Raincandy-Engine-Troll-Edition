@@ -2,7 +2,7 @@ package funkin;
 
 #if !macro
 import Main.Version;
-
+import flixel.util.FlxColor;
 import funkin.input.Controls.KeyboardScheme;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
@@ -58,7 +58,7 @@ class ClientPrefs
 	*/
 
 	static var defaultOptionDefinitions = getOptionDefinitions();
-	static var manualLoads = ["gameplaySettings", "quantHSV", "arrowHSV", "comboOffset","ratingPlacement"];
+	static var manualLoads = ["gameplaySettings", "quantHSV", "arrowHSV", "quantRGB", "quantRGBPixel", "arrowRGB", "arrowRGBPixel", "comboOffset","ratingPlacement"];
 
 	inline public static function getOptionDefinitions():Map<String, OptionData>
 	{
@@ -561,6 +561,12 @@ class ClientPrefs
 				type: Button,
 				data: []
 			},
+			"customizeColoursRGB" => {
+				display: "Customize Splashes(RGB EDIT)",
+				desc: "Lets you change the offsets of your splashes.(Like psych 0.7.x above)",
+				type: Button,
+				data: []
+			},
 			// video
 			"shaders" => {
 				display: "Shaders",
@@ -707,7 +713,32 @@ class ClientPrefs
 		[-120, -70, -35], // 96th
 		[-120, -70, -35] // 192nd
 	];
+	public static var quantRGB:Array<Array<FlxColor>> = blankRGB();
+	public static var quantRGBPixel:Array<Array<FlxColor>> = blankRGB();
 
+	public static var arrowRGB:Array<Array<FlxColor>> = blankRGB();
+	public static var arrowRGBPixel:Array<Array<FlxColor>> = blankRGB();
+	public static function blankRGB():Array<Array<FlxColor>>{
+		return [
+			[0xFFFF0000,0xFF00FF00,0xFF0000FF],
+			[0xFFFF0000,0xFF00FF00,0xFF0000FF],
+			[0xFFFF0000,0xFF00FF00,0xFF0000FF],
+			[0xFFFF0000,0xFF00FF00,0xFF0000FF]];
+	}
+	public static function getDefaultRGB():Array<Array<FlxColor>>{
+		return [
+			[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],
+			[0xFF00FFFF, 0xFFFFFFFF, 0xFF1542B7],
+			[0xFF12FA05, 0xFFFFFFFF, 0xFF0A4447],
+			[0xFFF9393F, 0xFFFFFFFF, 0xFF651038]];
+	}
+
+	public static function getDefaultRGBPixel():Array<Array<FlxColor>>{
+		return [[0xFFE276FF, 0xFFFFF9FF, 0xFF60008D],
+		[0xFF3DCAFF, 0xFFF4FFFF, 0xFF003060],
+		[0xFF71E300, 0xFFF6FFE6, 0xFF003100],
+		[0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]];
+	}
 	//
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 

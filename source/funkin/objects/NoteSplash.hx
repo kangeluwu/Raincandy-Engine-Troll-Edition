@@ -7,6 +7,7 @@ import flixel.FlxG;
 import funkin.objects.shaders.ColorSwap;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.math.FlxMath;
+import flixel.util.FlxColor;
 import flixel.graphics.frames.FlxFrame;
 typedef NoteSplashConfig = {
 	anim:String,
@@ -26,8 +27,8 @@ class NoteSplash extends NoteObject
 	public function new(x:Float = 0, y:Float = 0, ?note:Int = 0) {
 		super(x, y);
 		objType = SPLASH;
-		
-		colorSwap = new ColorSwap();
+		this.column = note;
+		colorSwap = defaultRGB();
 		shader = colorSwap.shader;
 
 		var skin:String = null;
@@ -106,7 +107,20 @@ class NoteSplash extends NoteObject
 		colorSwap.hue = hueColor;
 		colorSwap.saturation = satColor;
 		colorSwap.brightness = brtColor;
-
+		if (note != null){
+			colorSwap.r = note.colorSwap.r;
+			colorSwap.g = note.colorSwap.g;
+			colorSwap.b = note.colorSwap.b;
+		}else{
+			var arr:Array<FlxColor> = ClientPrefs.arrowRGB[column % PlayState.keyCount];
+			if (arr != null && column > -1 && column <= arr.length)
+				{
+			
+			colorSwap.r = arr[0];
+			colorSwap.g = arr[1];
+			colorSwap.b = arr[2];
+				}
+		}
 		var ret = Globals.Function_Continue;
 		if (note != null && note.genScript != null)
 			ret = note.genScript.call("postSetupNoteSplash", [x, y, column, texture, hueColor, satColor, brtColor, note], ["this" => this, "noteData" => noteData, "column" => column]);

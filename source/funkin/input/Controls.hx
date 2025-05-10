@@ -40,6 +40,7 @@ enum abstract Action(String) to String from String
 	var NOTE_DOWN_R = "note_down-release";
 
 	var ACCEPT = "accept";
+	var ACCEPT_R = "accept-release";
 	var BACK = "back";
 	var PAUSE = "pause";
 	var RESET = "reset";
@@ -73,6 +74,7 @@ abstract Action(String) to String from String
 	var NOTE_RIGHT_R = "note_right-release";
 	var NOTE_DOWN_R = "note_down-release";
 	var ACCEPT = "accept";
+	var ACCEPT_R = "accept-release";
 	var BACK = "back";
 	var PAUSE = "pause";
 	var RESET = "reset";
@@ -146,6 +148,7 @@ class Controls extends FlxActionSet
 	var _note_downR = new FlxActionDigital(Action.NOTE_DOWN_R);
 
 	var _accept = new FlxActionDigital(Action.ACCEPT);
+	var _acceptR = new FlxActionDigital(Action.ACCEPT_R);
 	var _back = new FlxActionDigital(Action.BACK);
 	var _pause = new FlxActionDigital(Action.PAUSE);
 	var _reset = new FlxActionDigital(Action.RESET);
@@ -284,6 +287,11 @@ class Controls extends FlxActionSet
 	inline function get_ACCEPT()
 		return _accept.check();
 
+	public var ACCEPT_R(get, never):Bool;
+
+	inline function get_ACCEPT_R()
+		return _acceptR.check();
+
 	public var BACK(get, never):Bool;
 
 	inline function get_BACK()
@@ -329,6 +337,7 @@ class Controls extends FlxActionSet
 		add(_note_rightR);
 		add(_note_downR);
 		add(_accept);
+		add(_acceptR);
 		add(_back);
 		add(_pause);
 		add(_reset);
@@ -368,6 +377,7 @@ class Controls extends FlxActionSet
 		add(_note_rightR);
 		add(_note_downR);
 		add(_accept);
+		add(_acceptR);
 		add(_back);
 		add(_pause);
 		add(_reset);
@@ -481,6 +491,7 @@ class Controls extends FlxActionSet
 				func(_note_downR, JUST_RELEASED);
 			case ACCEPT:
 				func(_accept, JUST_PRESSED);
+				func(_acceptR, JUST_RELEASED);
 			case BACK:
 				func(_back, JUST_PRESSED);
 			case PAUSE:

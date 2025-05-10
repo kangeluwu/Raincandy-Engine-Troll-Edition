@@ -133,7 +133,7 @@ class PlayState extends MusicBeatState
 	public var healthLoss:Float = 1.0;
 	public var healthDrain:Float = 0.0;
 	public var opponentHPDrain:Float = 0.0;
-
+	public var allowMutiStrumsPosFix:Bool = false;
 	public var songSpeed(default, set):Float = 1.0;
 	public var songSpeedType:String = "multiplicative";
 	public var noteKillOffset:Float = 350;
@@ -342,7 +342,7 @@ class PlayState extends MusicBeatState
 	public var countdownTwn:FlxTween;
 	
     public var startedOnTime:Float = 0;
-
+	public var doGFcheck:Bool = true;
 	// Debug buttons
 	private var debugKeysChart:Array<FlxKey>;
 	private var debugKeysBotplay:Array<FlxKey>;
@@ -555,7 +555,7 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		Highscore.loadData();
-
+		
         Paths.preLoadContent = [];
 		Paths.postLoadContent = [];
 		
@@ -691,10 +691,8 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOverlay, false);
 		FlxG.cameras.add(camOther, false);
-		if (rhythmMode){
 		FlxG.cameras.add(camRhythm, false);
 		FlxG.cameras.add(camRhythmHUD, false);
-		}
 		FlxG.cameras.add(subStateCam, false);
 		camZooming = false;
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
@@ -711,7 +709,8 @@ class PlayState extends MusicBeatState
 			trace("WARNING: null SONG");
 			SONG = Song.loadFromJson('tutorial', difficultyName, 'tutorial');
 		}
-
+		if (SONG.song.toLowerCase() == 'tutorial')
+			doGFcheck = true;
 		offset = SONG.offset != null ? SONG.offset : 0;
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
@@ -721,7 +720,10 @@ class PlayState extends MusicBeatState
 
 		songName = Paths.formatToSongPath(SONG.song);
 		songHighscore = Highscore.getScore(SONG.song, difficultyName);
+		if (allowMutiStrumsPosFix)
 		modManager.playerAmount = curStrum = SONG.strums;
+		else
+		modManager.playerAmount = 2;
 		modManager.setActive(modManager.playerAmount);
 		if (SONG.metadata != null){
 			metadata = SONG.metadata;
@@ -1043,8 +1045,8 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes.cameras = [camHUD];
 		grpNoteSplashes.add(splash);
 
-		//// Characters
 
+		//// Characters
 		var gfVersion:String = SONG.gfVersion;
 
 		if (stageData.hide_girlfriend != true)
@@ -1070,7 +1072,7 @@ class PlayState extends MusicBeatState
 			dad.cameraPosition[1] += stageData.camera_opponent[1];
 		}
         dad.setDefaultVar("used", true);
-		startCharacter(dad, true);
+		startCharacter(dad, doGFcheck);
 		
 		dadMap.set(dad.curCharacter, dad);
 		dadGroup.add(dad);
@@ -1086,7 +1088,7 @@ class PlayState extends MusicBeatState
 		boyfriendMap.set(boyfriend.curCharacter, boyfriend);
 		boyfriendGroup.add(boyfriend);
 
-		if(dad.posType == 'gf') {
+		if(doGFcheck && dad.posType == 'gf') {
 			dad.setPosition(GF_X, GF_Y);
 			if(gf != null)
 				gf.visible = false;
@@ -1302,7 +1304,6 @@ class PlayState extends MusicBeatState
 		}
 
 		////
-		callOnAllScripts('onCreatePost');
 
 		add(ratingGroup);
 		add(timingTxt);
@@ -1367,15 +1368,12 @@ class PlayState extends MusicBeatState
 		Cache.loadWithList(shitToLoad);
 		shitToLoad = [];
 
-        if(gf!=null) gf.callOnScripts("onAdded", [gf, null]); // if you can come up w/ a better name for this callback then change it lol
-		// (this also gets called for the characters changed in changeCharacter)
-        boyfriend.callOnScripts("onAdded", [boyfriend, null]);
-        dad.callOnScripts("onAdded", [dad, null]); 
-
 		super.create();
 
 		RecalculateRating();
 		startCountdown();
+
+		callOnAllScripts('onCreatePost');
 
 		finishedCreating = true;
 
@@ -1496,7 +1494,7 @@ class PlayState extends MusicBeatState
 						dadField.characters.push(newDad);
 					dadMap.set(newCharacter, newDad);
 					dadGroup.add(newDad);
-					startCharacter(newDad, true);
+					startCharacter(newDad, doGFcheck);
 					newDad.alpha = 0.00001;
 
 					newDad.setOnScripts("used", false); // used to determine when a character is actually being used
@@ -3027,99 +3025,71 @@ class PlayState extends MusicBeatState
 	}
 
 	function changeCharacter(name:String, charType:Int){
+		var oldChar:Character;
+		var charMap:Map<String, Character>;
+		var varName:String;
+
 		switch(charType) {
 			case 0:
-				if(boyfriend.curCharacter != name) {
-					trace("turned bf into " + name);
-					var shiftFocus:Bool = focusedChar==boyfriend;
-					var oldChar = boyfriend;
-					if(!boyfriendMap.exists(name)) {
-						addCharacterToList(name, charType);
-					}
+				oldChar = boyfriend;
+				charMap = boyfriendMap;
+				varName = 'boyfriendName';
 
-					var lastAlpha:Float = boyfriend.alpha;
-					boyfriend.alpha = 0.00001;
-					boyfriend = boyfriendMap.get(name);
-					boyfriend.alpha = lastAlpha;
-					if(shiftFocus)focusedChar=boyfriend;
-					//hud.iconP1.changeIcon(boyfriend.healthIcon);
-                    //hud.iconChange(1, boyfriend.healthIcon);
-                    hud.changedCharacter(1, boyfriend);
-                    oldChar.setOnScripts("used", false);
-					boyfriend.setOnScripts("used", true);
-                    oldChar.callOnScripts("changedOut", [oldChar, boyfriend]); // oldChar, newChar
-                    boyfriend.callOnScripts("onAdded", [boyfriend, oldChar]); // if you can come up w/ a better name for this callback then change it lol
-                    // (this also gets called for the characters set by the chart's player1/player2)
-					
-
-				}
-				setOnHScripts('boyfriend', boyfriend);
-				setOnScripts('boyfriendName', boyfriend.curCharacter);
 			case 1:
-				if(dad.curCharacter != name) {
-					trace("turned dad into " + name);
-					var shiftFocus:Bool = focusedChar==dad;
-					var oldChar = dad;
-					if(!dadMap.exists(name)) {
-						addCharacterToList(name, charType);
-					}
-
-					var wasGf:Bool = (dad.posType == 'gf');
-					var lastAlpha:Float = dad.alpha;
-					dad.alpha = 0.00001;
-					dad = dadMap.get(name);
-					if(dad.posType != 'gf') {
-						if(wasGf && gf != null) {
-							gf.visible = true;
-						}
-					} else if(gf != null) {
-						gf.visible = false;
-					}
-					if(shiftFocus)focusedChar=dad;
-					dad.alpha = lastAlpha;
-					//hud.iconP2.changeIcon(dad.healthIcon);
-					hud.changedCharacter(2, dad);
-					oldChar.setOnScripts("used", false);
-					dad.setOnScripts("used", true);
-					oldChar.callOnScripts("changedOut", [oldChar, dad]); // oldChar, newChar
-					dad.callOnScripts("onAdded", [dad, oldChar]); // if you can come up w/ a better name for this callback then change it lol
-					// (this also gets called for the characters set by the chart's player1/player2)
-					
-				}
-				setOnHScripts('dad', dad);
-				setOnScripts('dadName', dad.curCharacter);
+				oldChar = dad;
+				charMap = dadMap;
+				varName = 'dadName';
 
 			case 2:
-				if(gf != null)
-				{
-					if(gf.curCharacter != name)
-					{
-						trace("turned gf into " + name);
-						var shiftFocus:Bool = focusedChar==gf;
-						var oldChar = gf;
-						if(!gfMap.exists(name))
-						{
-							addCharacterToList(name, charType);
-						}
+				oldChar = gf;
+				charMap = gfMap;
+				varName = "gfName";
 
-						var lastAlpha:Float = gf.alpha;
-						gf.alpha = 0.00001;
-						gf = gfMap.get(name);
-						gf.alpha = lastAlpha;
-						if(shiftFocus)focusedChar=gf;
-						hud.changedCharacter(3, gf);
-					    oldChar.setOnScripts("used", false);
-					    gf.setOnScripts("used", true);
-						oldChar.callOnScripts("changedOut", [oldChar, gf]); // oldChar, newChar
-                        gf.callOnScripts("onAdded", [gf, oldChar]); // if you can come up w/ a better name for this callback then change it lol
-						// (this also gets called for the characters set by the chart's player1/player2)
-
-					}
-					setOnHScripts('gf', gf);
-					setOnScripts('gfName', gf.curCharacter);
-				}
+			default: return;
 		}
+
+		if (oldChar != null && oldChar.curCharacter == name)
+			return;
+
+		if (showDebugTraces)
+			trace('turning $charType into ' + name);
+		
+		if (!charMap.exists(name))
+			addCharacterToList(name, charType);
+		
+		var newChar:Character = charMap.get(name);
+		
+		switch(charType) {
+			case 0: boyfriend = newChar;
+			case 1: dad = newChar;
+			case 2: gf = newChar;
+		}
+
+		setOnScripts(varName, name);
+
+		if (oldChar != null) {
+			newChar.alpha = oldChar.alpha;
+			oldChar.alpha = 0.00001;
+			oldChar.changedOut(newChar);
+		}
+		else 
+			newChar.alpha = 1.0;
+
+		newChar.changedIn(oldChar);
+
+		if (focusedChar == oldChar) focusedChar = newChar;
+
+		hud.changedCharacter(charType, newChar);
 		reloadHealthBarColors();
+	}
+	
+	public function getCharacterFromString(str:String):Null<Character> {
+		return switch (str.toLowerCase().trim()) {
+			case 'bf'	| 'boyfriend'	| '0': boyfriend;
+			case 'dad'	| 'opponent'	| '1': dad;	
+			case 'gf'	| 'girlfriend'	| '2': gf;
+			default: null;
+		}
 	}
 
 	public function triggerEventNote(eventName:String = "", value1:String = "", value2:String = "", ?time:Float, value3:String = "") {
@@ -4262,8 +4232,12 @@ class PlayState extends MusicBeatState
 			track.volume = 1.0;
 
 		var time:Float = 0.15;
-		if (note.isSustainNote)
+		if (note.isSustainNote){
+			if (note.isSustainEnd)
+			time += 0.05;
+			else
 			time += 0.15;
+		}
 		// Strum animations
 		if (note.visible){
 			StrumPlayAnim(field, Std.int(Math.abs(note.column)) % keyCount, time, note);
@@ -4295,7 +4269,7 @@ class PlayState extends MusicBeatState
 				brt = hsb[2] / 100;*/
 			}
 
-			spr.setHoldPos(0,0,note.column,hue,sat,brt);
+			spr.setHoldPos(0,0,note.column,hue,sat,brt,note);
 			spr.resetAnim = time;
 		}
 		}
@@ -4345,8 +4319,12 @@ class PlayState extends MusicBeatState
 			// Strum animations
 			if (note.visible){
 				var time:Float = 0.15;
-				if (note.isSustainNote)
+				if (note.isSustainNote){
+					if (note.isSustainEnd)
+					time += 0.05;//WHY SHORT SUSTAIN BUGGED BRO
+					else
 					time += 0.15;
+				}
 	
 				StrumPlayAnim(field, Std.int(Math.abs(note.column)) % keyCount, time, note);
 			}
@@ -4567,7 +4545,7 @@ class PlayState extends MusicBeatState
 				brt = hsb[2] / 100;*/
 			}
 
-			spr.setHoldPos(0,0,note.column,hue,sat,brt);
+			spr.setHoldPos(0,0,note.column,hue,sat,brt,note);
 			spr.resetAnim = time;
 		}
 		}

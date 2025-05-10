@@ -1,19 +1,53 @@
 package funkin.objects.shaders;
-
+import flixel.util.FlxColor;
+import flixel.math.FlxMath;
 class ColorSwap
 {
 	public var shader(default, null):ColorSwapShader = new ColorSwapShader();
+	
 	public var hue(default, set):Float = 0;
 	public var saturation(default, set):Float = 0;
 	public var brightness(default, set):Float = 0;
 	public var daAlpha(default, set):Float = 1;
 	public var flash(default, set):Float = 0;
+
 	public var usePixel(default, set):Bool = false;
+
 	public var flashR(default, set):Float = 1;
 	public var flashG(default, set):Float = 1;
 	public var flashB(default, set):Float = 1;
 	public var flashA(default, set):Float = 1;
 	public var size(default, set):Array<Float> = [FlxG.width/32,FlxG.height/32];
+
+	public var r(default, set):FlxColor;
+	public var g(default, set):FlxColor;
+	public var b(default, set):FlxColor;
+	public var mult(default, set):Float;
+
+	private function set_r(color:FlxColor) {
+		r = color;
+		shader.r.value = [color.redFloat, color.greenFloat, color.blueFloat];
+		return color;
+	}
+
+	private function set_g(color:FlxColor) {
+		g = color;
+		shader.g.value = [color.redFloat, color.greenFloat, color.blueFloat];
+		return color;
+	}
+
+	private function set_b(color:FlxColor) {
+		b = color;
+		shader.b.value = [color.redFloat, color.greenFloat, color.blueFloat];
+		return color;
+	}
+	
+	private function set_mult(value:Float) {
+		mult = FlxMath.bound(value, 0, 1);
+		shader.mult.value = [mult];
+		return mult;
+	}
+
 	private function set_usePixel(value:Bool)
 	{
 			usePixel = value;
@@ -90,9 +124,56 @@ class ColorSwap
 		shader.uTime.value[2] = brightness;
 		return brightness;
 	}
+	public function copyFrom(parent:ColorSwap){
+		this.r = parent.r;
+		this.g = parent.g;
+		this.b = parent.b;
+		this.mult = parent.mult;
 
+
+		this.hue = parent.hue;
+		this.saturation = parent.saturation;
+		this.brightness = parent.brightness;
+		this.daAlpha = parent.daAlpha;
+
+		this.usePixel = parent.usePixel;
+		this.size = parent.size;
+		this.flash = parent.flash;
+		this.flashR = parent.flashR;
+		this.flashG = parent.flashG;
+		this.flashB = parent.flashB;
+		this.flashA = parent.flashA;
+	}
+
+	public function clone():ColorSwap
+		{
+			var parent = new ColorSwap();
+			parent.r = this.r;
+			parent.g = this.g;
+			parent.b = this.b;
+			parent.mult = this.mult;
+
+
+			parent.hue = this.hue;
+			parent.saturation = this.saturation;
+			parent.brightness = this.brightness;
+			parent.daAlpha = this.daAlpha;
+
+			parent.usePixel = this.usePixel;
+			parent.size = this.size;
+			parent.flash = this.flash;
+			parent.flashR = this.flashR;
+			parent.flashG = this.flashG;
+			parent.flashB = this.flashB;
+			parent.flashA = this.flashA;
+			return parent;
+		}
 	public function new()
 	{
+		r = 0xFFFF0000;
+		g = 0xFF00FF00;
+		b = 0xFF0000FF;
+		mult = 1.0;
 		shader.uTime.value = [0, 0, 0];
 		shader.flashColor.value = [1, 1, 1, 1];
 		shader.daAlpha.value = [1];
@@ -106,6 +187,10 @@ class ColorSwapShader extends FlxShader
 {
 	@:glFragmentSource('
 		#pragma header
+		uniform vec3 r;
+		uniform vec3 g;
+		uniform vec3 b;
+		uniform float mult;
 		uniform bool usePixel = false;
 		uniform vec3 uTime;
 		uniform float daAlpha;
@@ -176,13 +261,31 @@ class ColorSwapShader extends FlxShader
             return vec4(0.0, 0.0, 0.0, 0.0);
         }
 
+		vec4 flixel_texture2DCustom(sampler2D bitmap, vec2 coord) {
+			vec4 color = texture2D(bitmap, coord);
+			if (!hasTransform || color.a == 0.0 || mult == 0.0) {
+				return color;
+			}
+
+			vec4 newColor = color;
+			newColor.rgb = min(color.r * r + color.g * g + color.b * b, vec3(1.0));
+			newColor.a = color.a;
+			
+			color = mix(color, newColor, mult);
+			
+			if(color.a > 0.0) {
+				return vec4(color.rgb, color.a);
+			}
+			return vec4(0.0, 0.0, 0.0, 0.0);
+		}
+
 		void main()
 		{
 			vec2 uv = fragCoord/iResolution.xy;
 			vec2 blocks = uv / uBlocksize;
-			vec4 color = texture2D(bitmap, openfl_TextureCoordv);
+			vec4 color = flixel_texture2DCustom(bitmap, openfl_TextureCoordv);
 			if (usePixel)
-				 color = texture2D(bitmap, floor(openfl_TextureCoordv * uBlocksize) / uBlocksize);
+				 color = flixel_texture2DCustom(bitmap, floor(openfl_TextureCoordv * uBlocksize) / uBlocksize);
 			vec4 swagColor = vec4(
 				rgb2hsv(
 					vec3(color[0], color[1], color[2])

@@ -521,7 +521,7 @@ class Song
 			////
 			swagJson.tracks = {inst: instTracks, player: playerTracks, opponent: opponentTracks};
 		}
-
+		
         if (swagJson.notes == null)
             swagJson.notes = [];
         

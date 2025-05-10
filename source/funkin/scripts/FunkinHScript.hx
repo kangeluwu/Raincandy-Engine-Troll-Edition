@@ -226,6 +226,7 @@ class FunkinHScript extends FunkinScript {
 		set("FlxCamera", FlxCamera);
 		set("FlxSound", FlxSound);
 		set("FlxMath", FlxMath);
+		set("FlxFrame", flixel.graphics.frames.FlxFrame);
 		set("FlxGradient", flixel.util.FlxGradient);
 		set("FlxGlitchEffect", FlxGlitchEffect);
 		set("FlxPexParser", flixel.addons.editors.pex.FlxPexParser);
@@ -339,7 +340,7 @@ class FunkinHScript extends FunkinScript {
 		set("MusicBeatState", MusicBeatState);
 		set("MusicBeatSubstate", MusicBeatSubstate);
 		set("GameOverSubstate", funkin.states.GameOverSubstate);
-		set("Song", funkin.data.Song);
+		set("Song", funkin.data.Song.Song);
 		set("SongMetadata", funkin.data.Song.SongMetadata);
 		set("BGSprite", funkin.objects.BGSprite);
 		set("RatingSprite", funkin.objects.RatingGroup.RatingSprite);

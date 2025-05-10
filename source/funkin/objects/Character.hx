@@ -19,6 +19,9 @@ class Character extends funkin.objects.FlxFilteredSprite
 	/**The character posType**/
 	public var posType:String = 'none';
 
+	/**Whether this character is currently in use, Used by PlayState Character Change Events**/
+	public var used:Bool = false;
+
     /**The next beat the character will dance on**/
     public var nextDanceBeat:Float = -5;
 
@@ -562,6 +565,31 @@ class Character extends funkin.objects.FlxFilteredSprite
 			danceEveryNumBeats = Math.round(Math.max(calc, 1));
 		}
 		settingCharacterUp = false;
+	}
+
+	/** To be called when this character is used, Used by PlayState Character Change Events **/
+	public function changedIn(prevCharacter:Null<Character>) {
+		inline function canResumeAnim(c:Character):Bool {
+			return c != null && animation.exists(c.animation.name) && (curCharacter.startsWith(c.curCharacter) || c.curCharacter.startsWith(curCharacter));
+		}
+		if (canResumeAnim(prevCharacter)) {
+			var anim = prevCharacter.animation.curAnim;
+			playAnim(anim.name, true, anim.reversed, anim.curFrame);
+		}else {
+			dance();
+		}
+		
+		used = true;
+		setOnScripts("used", true);
+		callOnScripts("changedIn", [prevCharacter]); // if you can come up w/ a better name for this callback then change it lol
+		// (this also gets called for the characters set by the chart's player1/player2)
+	}
+
+	/** To be called when this character is changed out for another, Used by PlayState Character Change Events **/
+	public function changedOut(newCharacter:Null<Character>) {
+		used = false;
+		setOnScripts("used", false);
+		callOnScripts("changedOut", [newCharacter]);
 	}
 
 	public function addOffset(name:String, x:Float = 0, y:Float = 0)
