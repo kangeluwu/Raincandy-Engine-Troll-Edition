@@ -430,8 +430,8 @@ class Song
 			var instTracks:Array<String> = ["Inst"];
 
 			////
-			var playerTracks:Array<String> = null;
-			var opponentTracks:Array<String> = null;
+			var playerTracks:Array<String> = [];
+			var opponentTracks:Array<String> = [];
 
 			/**
 			 * 1. If 'needsVoices' is false, no tracks will be defined for the player or opponent
@@ -510,6 +510,7 @@ class Song
 				if (Paths.exists('songs/${swagJson.song}/$tracks-'+diff+'.ogg'))
 					tracks = '$tracks-'+diff+'.ogg';
 				}
+				
 				for (tracks in playerTracks){
 				if (Paths.exists('songs/${swagJson.song}/$tracks-'+diff+'.ogg'))
 					tracks = '$tracks-'+diff+'.ogg';

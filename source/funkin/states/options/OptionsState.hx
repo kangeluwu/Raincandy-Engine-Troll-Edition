@@ -19,7 +19,7 @@ class OptionsState extends MusicBeatState
 
         daSubstate = new OptionsSubstate(true);
 		daSubstate.goBack = (changedOptions:Array<String>)->{
-			FadeTransitionSubstate.nextCamera = daSubstate.transCamera;
+			flixel.addons.transition.TransitionSubstate.nextCamera = daSubstate.transCamera;
 			MusicBeatState.switchState(new MainMenuState());
         };
 
@@ -116,7 +116,7 @@ class OptionsState extends MusicBeatState
 			subState.openSubState(trans);
 
 			trans.finishCallback = finishTransIn;
-			FadeTransitionSubstate.nextCamera = transCamera;
+			flixel.addons.transition.TransitionSubstate.nextCamera = transCamera;
 			trans.start(OUT);
 		}
     }

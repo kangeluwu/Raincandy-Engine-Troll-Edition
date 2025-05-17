@@ -7,7 +7,7 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-    <app title="Friday Night Funkin'" file="Funkin" packageName="com.sowy.trollengine"
+    <app title="Friday Night Funkin':With acecre4m!" file="FunkinWithTheCre4m" packageName="com.sowy.trollengine"
         package="com.sowy.trollengine" main="Main" version="0.2.8" company="Sowy" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
@@ -70,11 +70,10 @@
     <!--Remove if you dont want the engine to autoupdate -->
     <define name="DO_AUTO_UPDATE" if="native desktop OFFICIAL_BUILD" unless="debug" />
 
-    <icon path="art/iconOG.png" />
-    <icon path="art/icon64.png" size='64' />
-    <icon path="art/icon32.png" size='32' />
-    <icon path="art/icon16.png" size='16' />
-
+    <icon path="mods-comms/liam/arts/iconOG.png" />
+    <icon path="mods-comms/liam/arts/icon64.png" size='64' />
+    <icon path="mods-comms/liam/arts/icon32.png" size='32' />
+    <icon path="mods-comms/liam/arts/icon16.png" size='16' />
     <!-- _______________________________ Libraries ______________________________ -->
 
     <haxelib name="flixel" version="5.5.0" />

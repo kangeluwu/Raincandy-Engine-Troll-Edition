@@ -175,8 +175,8 @@ class TitleState extends MusicBeatState
 		if (bg != null)
 			bg.buildStage();
 
-		FlxTransitionableState.defaultTransIn = FadeTransitionSubstate;
-		FlxTransitionableState.defaultTransOut = FadeTransitionSubstate;
+		FlxTransitionableState.defaultTransIn = CustomTransitionSubstate;
+		FlxTransitionableState.defaultTransOut = CustomTransitionSubstate;
 
 		persistentUpdate = true;
 

@@ -2,7 +2,7 @@ package;
 
 import funkin.*;
 import funkin.states.MusicBeatState;
-import funkin.states.FadeTransitionSubstate;
+import funkin.states.CustomTransitionSubstate;
 
 import flixel.FlxG;
 import flixel.FlxState;
@@ -144,8 +144,8 @@ class StartupState extends FlxTransitionableState
 		});
 		#end
 
-		FlxTransitionableState.defaultTransIn = FadeTransitionSubstate;
-		FlxTransitionableState.defaultTransOut = FadeTransitionSubstate;
+		FlxTransitionableState.defaultTransIn = CustomTransitionSubstate;
+		FlxTransitionableState.defaultTransOut = CustomTransitionSubstate;
 		funkin.states.FreeplayCategoryState.getCategories();
 	
 	}
@@ -156,7 +156,7 @@ class StartupState extends FlxTransitionableState
 		this.transOut = null;
 
 		#if tgt
-		this.transIn = FadeTransitionSubstate;
+		this.transIn = CustomTransitionSubstate;
 
 		warning = new FlxSprite(0, 0, Paths.image("warning"));
 		warning.scale.set(0.65, 0.65);

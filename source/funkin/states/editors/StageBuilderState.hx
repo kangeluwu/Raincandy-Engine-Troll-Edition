@@ -823,8 +823,8 @@ class StageBuilderState extends MusicBeatState
         camGame.bgColor = 0xFF00FF00;
         camHUD.bgColor.alpha = 0;
 
-        FadeTransitionSubstate.nextCamera = camHUD;
-
+        //FadeTransitionSubstate.nextCamera = camHUD;
+        CustomFadeTransition.nextCamera = camHUD;
         ////
         add(stage);
         add(foreground);

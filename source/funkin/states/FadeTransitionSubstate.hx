@@ -12,8 +12,6 @@ class FadeTransitionSubstate extends TransitionSubstate
 {
 	var _finalDelayTime:Float = 0.0;
 
-	public static var defaultCamera:FlxCamera;
-	public static var nextCamera:FlxCamera;
 
 	var curStatus:TransitionStatus;
 
@@ -23,13 +21,17 @@ class FadeTransitionSubstate extends TransitionSubstate
 	var updateFunc:Null<Void->Void> = null;
 
 	override public function start(status: TransitionStatus){
-		var cam = nextCamera!=null ? nextCamera : (defaultCamera!=null ? defaultCamera : FlxG.cameras.list[FlxG.cameras.list.length-1]);
+		var cam = TransitionSubstate.nextCamera!=null ? TransitionSubstate.nextCamera : (TransitionSubstate.defaultCamera!=null ? TransitionSubstate.defaultCamera : FlxG.cameras.list[FlxG.cameras.list.length-1]);
 		cameras = [cam];
 
-		nextCamera = null;
+		TransitionSubstate.nextCamera = null;
 	
 		curStatus = status;
 
+		//trace('transitioning $status');
+		createTransIn(status,cam);
+	}
+	function createTransIn(status,cam){
 		var duration:Float = .48;
 		var angle:Int = 90;
 		var zoom:Float = FlxMath.bound(cam.zoom,0.001);
@@ -37,8 +39,6 @@ class FadeTransitionSubstate extends TransitionSubstate
 		var height:Int = Math.ceil(cam.height/ zoom);
 		var yStart = -height;
 		var yEnd = height;
-
-		//trace('transitioning $status');
 		switch(status){
 			case IN:
 				updateFunc = function() gradientFill.y = gradient.y - gradient.height;
@@ -70,7 +70,6 @@ class FadeTransitionSubstate extends TransitionSubstate
 			}
 		});
 	}
-
 	public override function update(elapsed:Float)
 	{
 		if (updateFunc != null) 

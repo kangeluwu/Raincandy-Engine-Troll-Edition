@@ -243,6 +243,7 @@ class FunkinHScript extends FunkinScript {
 		set("FlxTextBorderStyle", flixel.text.FlxText.FlxTextBorderStyle);
 		set("FlxTypeText", flixel.addons.text.FlxTypeText);
 		set("FlxCameraFollowStyle", flixel.FlxCamera.FlxCameraFollowStyle);
+		set("TransitionSubstate", flixel.addons.transition.TransitionSubstate);
 		set("FlxAxes", {
 			X: FlxAxes.X,
 			Y: FlxAxes.Y,
@@ -388,6 +389,7 @@ class FunkinHScript extends FunkinScript {
 
 		set("HScriptedState", funkin.states.scripting.HScriptedState);
 		set("HScriptedSubstate", funkin.states.scripting.HScriptedSubstate);
+		set("CustomFadeTransition", funkin.states.CustomFadeTransition);
 	}
 
 	function importClass(className:String) {

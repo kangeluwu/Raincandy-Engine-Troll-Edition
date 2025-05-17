@@ -38,7 +38,7 @@ class MusicBeatState extends FlxUIState
 	public var curDecStep:Float = 0.0;
 	public var curDecBeat:Float = 0.0;
 	private var controls(get, never):Controls;
-
+	public static var transType:String = 'Normal';
 	public var canBeScripted(get, default):Bool = false;
 	@:noCompletion function get_canBeScripted() return canBeScripted;
 

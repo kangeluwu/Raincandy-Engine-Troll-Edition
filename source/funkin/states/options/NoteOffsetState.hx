@@ -57,7 +57,7 @@ class NoteOffsetState extends MusicBeatState
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
 
-		FadeTransitionSubstate.nextCamera = camOther;
+		flixel.addons.transition.TransitionSubstate.nextCamera = camOther;
 
 		persistentUpdate = true;
 		FlxG.sound.pause();
@@ -254,7 +254,7 @@ class NoteOffsetState extends MusicBeatState
 			if(beatTween != null) beatTween.cancel();
 
 			persistentUpdate = false;
-			CustomFadeTransition.nextCamera = camOther;
+			flixel.addons.transition.TransitionSubstate.nextCamera = camOther;
 			MusicBeatState.switchState(new funkin.states.options.OptionsState());
 			MusicBeatState.playMenuMusic(true);
 			FlxG.mouse.visible = false;
@@ -395,7 +395,7 @@ class NoteOffsetState extends MusicBeatState
 			getLowestState().openSubState(trans);
 
 			trans.finishCallback = finishTransIn;
-			FadeTransitionSubstate.nextCamera = camOther;
+			flixel.addons.transition.TransitionSubstate.nextCamera = camOther;
 			trans.start(OUT);
 		}
     }
